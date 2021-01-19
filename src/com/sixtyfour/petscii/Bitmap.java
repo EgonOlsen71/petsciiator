@@ -6,6 +6,7 @@ import java.awt.image.RenderedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,12 +35,12 @@ public class Bitmap {
 	private int backgroundColor;
 	private int backgroundColorIndex;
 
-	public Bitmap(String fileName) {
-		load(fileName);
+	public Bitmap(String fileName, int scale) {
+		load(fileName, scale);
 	}
 
-	public Bitmap(String fileName, boolean fitTo320) {
-		load(fileName, fitTo320);
+	public Bitmap(String fileName, boolean fitTo320, int scale) {
+		load(fileName, fitTo320, scale);
 	}
 
 	public BufferedImage getImage() {
@@ -67,13 +68,15 @@ public class Bitmap {
 	}
 
 	public ConvertedData convertToPetscii(int size, boolean raster, Petscii petscii) {
+		Logger.log("Converting to PETSCII...");
+		
 		List<String> code = new ArrayList<>();
 		ConvertedData conv = new ConvertedData();
 		conv.setCode(code);
 
 		code.add("60000 poke53280," + backgroundColorIndex + ":poke53281," + backgroundColorIndex + ":printchr$(147);");
 		code.add("60010 fori=0to999:readp,c:poke1024+i,p:poke55296+i,c:next");
-		code.add("60011 geta$:ifa$=\"\"then60011:end");
+		code.add("60020 geta$:ifa$=\"\"then60020:end");
 
 		int width = img.getWidth();
 		int height = img.getHeight();
@@ -82,7 +85,7 @@ public class Bitmap {
 		int[] colorRam = new int[colorCodes.length];
 
 		int fgIdx = 0;
-		int lineNumber = 60012;
+		int lineNumber = 60030;
 		StringBuilder line = new StringBuilder();
 
 		for (int y = 0; y < height; y += size) {
@@ -132,7 +135,7 @@ public class Bitmap {
 				fgIdx++;
 			}
 		}
-		
+
 		conv.setScreenRam(screenRam);
 		conv.setColorRam(colorRam);
 		conv.setBackGroundColor(backgroundColorIndex);
@@ -140,6 +143,8 @@ public class Bitmap {
 	}
 
 	public void rasterize(int size, ColorMap colorMap) {
+		Logger.log("Analyzing image...");
+		
 		int colorCount = colorMap.getColors().length;
 		Map<Integer, Integer> color2Index = new HashMap<>();
 		foregroundColors = new int[img.getWidth() / size * img.getHeight() / size];
@@ -206,6 +211,7 @@ public class Bitmap {
 	}
 
 	public void reduceColors(ColorMap colorMap, int boost) {
+		Logger.log("Reducing color depth...");
 		int[] colorArray = colorMap.getColors();
 		int colors = colorArray.length;
 		int[] pix = new int[pixels.length];
@@ -220,6 +226,8 @@ public class Bitmap {
 
 		Map<Integer, Integer> cols = countColors(boost, pix, colorClamp);
 		List<ColorEntry> allColors = convertColors(colors, cols);
+		
+		Logger.log("Converting to VIC2 colors...");
 		mapToColorValues(colorArray, allColors);
 		assignColors(pix, allColors);
 
@@ -241,19 +249,26 @@ public class Bitmap {
 		}
 	}
 
-	private void load(String imgName) {
-		load(imgName, true);
+	private void load(String imgName, int scale) {
+		load(imgName, true, scale);
 	}
 
-	private void load(String imgName, boolean fitTo320) {
+	private void load(String imgName, boolean fitTo320, int scale) {
 		try {
-			img = ImageIO.read(new File(imgName));
+			InputStream is = this.getClass().getResourceAsStream(imgName);
+			if (is != null) {
+				// Logger.log("Loading bitmap " + imgName + " from input stream...");
+				img = ImageIO.read(is);
+			} else {
+				Logger.log("Loading bitmap " + imgName + " from file...");
+				img = ImageIO.read(new File(imgName));
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 		BufferedImage target = null;
 		if (fitTo320) {
-			int dif = 1;
+			int dif = scale;
 
 			BufferedImage target2 = new BufferedImage(320 / dif, 200 / dif, BufferedImage.TYPE_INT_RGB);
 			target2.getGraphics().drawImage(img, 0, 0, 320 / dif, 200 / dif, null);

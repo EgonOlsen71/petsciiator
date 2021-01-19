@@ -131,7 +131,7 @@ public class Petscii {
 	}
 
 	private void create(boolean lowerCase) {
-		Bitmap bitmap = new Bitmap(lowerCase ? "res/petscii_low.png" : "res/petscii.png", false);
+		Bitmap bitmap = new Bitmap(lowerCase ? "/petscii_low.png" : "/petscii.png", false, 1);
 		int[] pixels = bitmap.getPixels();
 		int cnt = 0;
 		for (int y = 0; y < 56 && cnt < 256; y += 8) {

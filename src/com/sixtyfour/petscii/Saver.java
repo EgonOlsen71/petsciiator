@@ -16,17 +16,20 @@ public class Saver {
 	private static final int[] COLOR_CODES = { 144, 5, 28, 159, 156, 30, 31, 158, 129, 149, 150, 151, 152, 153, 154,
 			155 };
 
-	public static void savePetsciiBasicCode(File pic, ConvertedData data) {
+	public static void savePetsciiBasicCode(File pic, ConvertedData data, File targetFolder) {
 		List<String> code = data.getCode();
 		String codeName = pic.toString().replace("\\", "/");
+		if (!codeName.contains("/")) {
+			codeName = "/" + codeName;
+		}
 		int pos = codeName.lastIndexOf(".");
 		int pos2 = codeName.lastIndexOf("/");
 		if (pos != -1 && pos2 != -1) {
-			String folder = codeName.substring(0, pos2 + 1) + "code/";
-			new File(folder).mkdirs();
-			codeName = folder + codeName.substring(pos2 + 1, pos) + ".bas";
-			Logger.log("Writing " + codeName);
-			try (PrintWriter pw = new PrintWriter(new File(codeName))) {
+			codeName = codeName.substring(pos2 + 1, pos) + ".bas";
+			File file = new File(targetFolder, codeName);
+			file.delete();
+			Logger.log("Writing BASIC code: " + file);
+			try (PrintWriter pw = new PrintWriter(file)) {
 				for (String line : code) {
 					pw.println(line);
 				}
@@ -37,20 +40,64 @@ public class Saver {
 
 	}
 
-	public static void savePetsciiImage(File pic, Bitmap bitmap) {
+	public static void savePetsciiImage(File pic, Bitmap bitmap, File targetFolder) {
 		String picName = pic.toString().replace("\\", "/");
+		if (!picName.contains("/")) {
+			picName = "/" + picName;
+		}
 		int pos = picName.lastIndexOf(".");
 		int pos2 = picName.lastIndexOf("/");
 		if (pos != -1 && pos2 != -1) {
-			String folder = picName.substring(0, pos2 + 1) + "petscii/";
-			new File(folder).mkdirs();
-			picName = folder + picName.substring(pos2 + 1, pos) + "_petscii.png";
-			Logger.log("Writing " + picName);
-			bitmap.save(picName);
+			picName = picName.substring(pos2 + 1, pos) + "_petscii.png";
+			File file = new File(targetFolder, picName);
+			file.delete();
+			Logger.log("Writing image: " + file);
+			bitmap.save(file.getPath());
 		}
 	}
 
-	public static void savePetsciiBbs(File pic, ConvertedData data) {
+	public static void savePetsciiBin(File pic, ConvertedData data, File targetFolder) {
+		int[] screen = data.getScreenRam();
+		int[] color = data.getColorRam();
+
+		String picName = pic.toString().replace("\\", "/");
+		if (!picName.contains("/")) {
+			picName = "/" + picName;
+		}
+		int pos = picName.lastIndexOf(".");
+		int pos2 = picName.lastIndexOf("/");
+
+		if (pos != -1 && pos2 != -1) {
+			picName = picName.substring(pos2 + 1, pos) + "_(?).seq";
+		}
+
+		File file1 = new File(targetFolder, picName.replace("(?)", "screen"));
+		file1.delete();
+		File file2 = new File(targetFolder, picName.replace("(?)", "color"));
+		file2.delete();
+
+		Logger.log("Writing char data file: " + file1);
+
+		try (OutputStream os = new FileOutputStream(file1)) {
+			for (int val : screen) {
+				os.write(val);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		Logger.log("Writing color data file: " + file2);
+
+		try (OutputStream os = new FileOutputStream(file2)) {
+			for (int val : color) {
+				os.write(val);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static void savePetsciiBbs(File pic, ConvertedData data, File targetFolder) {
 		int[] screen = data.getScreenRam();
 		int[] color = data.getColorRam();
 
@@ -58,19 +105,24 @@ public class Saver {
 		boolean reverse = false;
 
 		String picName = pic.toString().replace("\\", "/");
+		if (!picName.contains("/")) {
+			picName = "/" + picName;
+		}
 		int pos = picName.lastIndexOf(".");
 		int pos2 = picName.lastIndexOf("/");
+
 		if (pos != -1 && pos2 != -1) {
-			String folder = picName.substring(0, pos2 + 1) + "bbs/";
-			new File(folder).mkdirs();
-			picName = folder + picName.substring(pos2 + 1, pos) + "_bbs.seq";
+			picName = picName.substring(pos2 + 1, pos) + "_bbs.seq";
 		}
 
-		Logger.log("Writing " + picName);
-		int cnt=0;
+		File file = new File(targetFolder, picName);
+		file.delete();
 
-		try (OutputStream os = new FileOutputStream(new File(picName))) {
-			//os.write(147);
+		Logger.log("Writing BBS file: " + file);
+		int cnt = 0;
+
+		try (OutputStream os = new FileOutputStream(file)) {
+			// os.write(147);
 			for (int i = 0; i < screen.length; i++) {
 				int chr = screen[i];
 				int col = color[i];
@@ -85,26 +137,25 @@ public class Saver {
 				if (chr >= 128 && !reverse) {
 					os.write(18);
 					reverse = true;
-				} 
+				}
 				if (chr < 128 && reverse) {
 					os.write(146);
 					reverse = false;
 				}
 				cnt++;
-				int cc=Petscii.convert2CharCode(chr);
+				int cc = Petscii.convert2CharCode(chr);
 				os.write(cc);
-				if (cnt==39)  {
-					cnt=0;
+				if (cnt == 39) {
+					cnt = 0;
 					os.write(13);
-					reverse=false;
-					lastCol=-1;
+					reverse = false;
+					lastCol = -1;
 					i++;
 				}
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 }
