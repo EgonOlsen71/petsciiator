@@ -1,6 +1,9 @@
 # petsciiator
 A converter tool to convert JPG/PNG images into Commodore PETSCII.
 
+![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/ninja.png)  ==>  ![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/ninja_petscii.png)
+
+
 Input can by any JPG/PNG file of any (reasonable) size. The image will be scaled down to 320*200, so make sure that the aspect ratio of the source image fits this more ore less.
 There are several output formats to choose from:
 
