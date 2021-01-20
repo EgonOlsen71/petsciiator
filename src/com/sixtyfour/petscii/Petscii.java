@@ -143,6 +143,10 @@ public class Petscii {
 				Value q4 = new Value();
 				Value q5 = new Value();
 				Value q6 = new Value();
+				Value q7 = new Value();
+				Value q8 = new Value();
+				Value q9 = new Value();
+				Value q10 = new Value();
 
 				for (int xs = x; xs < x + 8; xs++) {
 					for (int ys = y; ys < y + 8; ys++) {
@@ -153,12 +157,12 @@ public class Petscii {
 						if (pc == 0) {
 							continue;
 						}
-						count(xs - x, ys - y, q1, q2, q3, q4, q5, q6);
+						count(xs - x, ys - y, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10);
 					}
 				}
 
 				chars.add(chary);
-				values.add(new Value[] { q1, q2, q3, q4, q5, q6 });
+				values.add(new Value[] { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10 });
 				cnt++;
 			}
 		}
@@ -174,6 +178,10 @@ public class Petscii {
 		Value q4 = new Value();
 		Value q5 = new Value();
 		Value q6 = new Value();
+		Value q7 = new Value();
+		Value q8 = new Value();
+		Value q9 = new Value();
+		Value q10 = new Value();
 
 		for (int xs = x; xs < x + 8; xs++) {
 			for (int ys = y; ys < y + 8; ys++) {
@@ -182,7 +190,7 @@ public class Petscii {
 				if (pc == bgColor) {
 					continue;
 				}
-				count(xs - x, ys - y, q1, q2, q3, q4, q5, q6);
+				count(xs - x, ys - y, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10);
 			}
 		}
 
@@ -197,8 +205,13 @@ public class Petscii {
 				float d4 = qs[3].value - q4.value;
 				float d5 = qs[4].value - q5.value;
 				float d6 = qs[5].value - q6.value;
+				float d7 = qs[6].value - q7.value;
+				float d8 = qs[7].value - q8.value;
+				float d9 = qs[8].value - q9.value;
+				float d10 = qs[9].value - q10.value;
 
-				double delta = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3 + d4 * d4 + d5 * d5 + d6 * d6);
+				double delta = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3 + d4 * d4 + d5 * d5 + d6 * d6 + d7 * d7 + d8 * d8
+						+ d9 * d9 + d10 * d10);
 				if (delta < dist) {
 					idx = i;
 					dist = delta;
@@ -213,26 +226,39 @@ public class Petscii {
 		return chars.get(index);
 	}
 
-	private void count(int x, int y, Value q1, Value q2, Value q3, Value q4, Value q5, Value q6) {
+	private void count(int x, int y, Value q1, Value q2, Value q3, Value q4, Value q5, Value q6, Value q7, Value q8,
+			Value q9, Value q10) {
 		if (x < 4 && y < 4) {
-			q1.value += 1;
+			q1.value++;
 		}
 		if (x > 3 && y < 4) {
-			q2.value += 1;
+			q2.value++;
 		}
 		if (x < 4 && y > 3) {
-			q3.value += 1;
+			q3.value++;
 		}
 		if (x > 3 && y > 3) {
-			q4.value += 1;
+			q4.value++;
 		}
 		if (x > 2 && x < 7) {
 			if (y > 2 && y < 7) {
-				q5.value += 1;
+				q5.value++;
 			}
 		}
 		if ((x == y) || ((7 - y) == x)) {
-			q6.value += 1;
+			q6.value++;
+		}
+		if (x == 0) {
+			q7.value++;
+		}
+		if (x == 7) {
+			q8.value++;
+		}
+		if (y == 0) {
+			q9.value++;
+		}
+		if (y == 7) {
+			q10.value++;
 		}
 	}
 
