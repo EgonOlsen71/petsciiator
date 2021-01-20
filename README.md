@@ -1,7 +1,7 @@
 # petsciiator
 A converter tool to convert JPG/PNG images into Commodore PETSCII.
 
-![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/ninja.png)  ==>  ![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/ninja_petscii.png)
+![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/ninja.png)  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/ninja_petscii.png)
 
 
 Input can by any JPG/PNG file of any (reasonable) size. The image will be scaled down to 320*200, so make sure that the aspect ratio of the source image fits this more ore less.
@@ -11,6 +11,9 @@ There are several output formats to choose from:
 * basic: a BASIC program in ASCII format for the C64 that displays the image
 * bbs: a SEQ file containing the image for usage in a BBS (you might want to use the /lowercase=true switch in combination with this one)
 * bin: two SEQ files containing the raw screen and color ram data
+
+<img src="https://github.com/EgonOlsen71/petsciiator/blob/master/examples/pet4032-12.jpg" width="320" height="200">  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/pet4032-12_petscii.png)
+
 
 Everything needed to start the converter can be found in the dist-directory. There, you'll find the JAR file and two batch files (one for Windows, one for Linux) to start the converter.
 When you start the converter using one of these batch files without specifying any addional options (but at least with a source file), it will take the source file (or, if it's a source directory, all fitting images in that directory) and convert them into PETSCII using the default settings. It will create one image and one basic output file for each source image (see above). You can change this behaviour by using...
