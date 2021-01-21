@@ -53,12 +53,12 @@ public class Petsciiator {
 			showHelp();
 			exit(0);
 		}
-		
+
 		if (source == null) {
 			System.out.println("No input file specified - aborting!");
 			exit(1);
 		}
-		
+
 		convert();
 	}
 
@@ -156,6 +156,8 @@ public class Petsciiator {
 				if (formats.contains("bin")) {
 					Saver.savePetsciiBin(pic, data, folder);
 				}
+
+				Logger.log("Background color is: " + data.getBackGroundColor());
 
 				Logger.log("Conversion done in " + (System.currentTimeMillis() - start) + "ms!");
 			} catch (Exception e) {
