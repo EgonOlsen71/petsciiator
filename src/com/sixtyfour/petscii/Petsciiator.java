@@ -217,7 +217,7 @@ public class Petsciiator {
 		System.out.println(
 				"/lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.");
 		System.out.println(
-				"/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect");
+				"/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.");
 		
 	}
 
