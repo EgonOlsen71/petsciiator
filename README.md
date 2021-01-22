@@ -30,6 +30,8 @@ When you start the converter using one of these batch files without specifying a
 
 /noalpha=<true|false> - if true, all alphanumerical characters will be excluded from the conversion. Default is false.
 
+/colormapper=<colorful|soft|dither> - sets the mapper that maps the source image's colors to the VIC II colors. Default is 'colorful'
+
 /colormode=<0|1|2> - sets the mode used for color conversions. Usually, the impact of changing this isn't very huge. Default is 0.
 
 /lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.
