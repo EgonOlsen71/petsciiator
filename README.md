@@ -46,7 +46,7 @@ In this section, I'll explain the **/colormapper** and the **/background** setti
 
 ![joystick](https://jpct.de/pix/joystick/stick.jpg)
 
-By default, the colorful color mapper will be used and the background color will be auto detected. In this case, color 15 is taken as a background color. This will provide the most detail in regions of the image which contain at least one pixel in this color. You can clearly see this on the fabric in the background and the stick's edges. The call to generate this image is simply: *petscii stick.jpg*
+By default, the colorful color mapper will be used and the background color will be auto detected. In this case, color 15 is taken as the background color. This will provide the most detail in regions of the image which contain at least one pixel in this color. You can clearly see this on the fabric in the background and the stick's edges. The call to generate this image is simple: *petscii stick.jpg*
 
 ![joystick color 15](https://jpct.de/pix/joystick/stick_15.png)
 
@@ -58,6 +58,6 @@ As you can see, the body of the stick shows more details now while the backgroun
 
 ![joystick color 0](https://jpct.de/pix/joystick/stick_dither_0.png)
 
-As you can see, **/colormapper** and **/background** can have a huge impact on the outcome. However, whether they improve the petscii image or not highly depends on the source image itself. For example, you can apply the dithering-color mapper without setting the background color to black on the source image as well. If the result is better with or without it, is a matter of taste:
+As you can see, **/colormapper** and **/background** can have a huge impact on the outcome. However, whether they improve the petscii image or not highly depends on the source image itself. For example, you can apply the dithering-color mapper without setting the background color to black on the source image as well. If the result is better with or without it, is a matter of taste (call: *petscii stick.jpg -colormapper=dither*):
 
 ![joystick color 0](https://jpct.de/pix/joystick/stick_dither.png)
