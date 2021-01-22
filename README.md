@@ -4,7 +4,7 @@ A converter tool to convert JPG/PNG images into Commodore PETSCII.
 ![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/ninja.png)  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/ninja_petscii.png)
 
 
-Input can by any JPG/PNG file of any (reasonable) size. The image will be scaled down to 320*200, so make sure that the aspect ratio of the source image fits this more ore less.
+Input can be any JPG/PNG file of any (reasonable) size. The image will be scaled down to 320*200, so make sure that the aspect ratio of the source image fits this more ore less.
 There are several output formats to choose from:
 
 * **image**: a 320*200 PNG file
@@ -26,7 +26,7 @@ When you start the converter using one of these batch files without specifying a
 
 **/prescale=<1-4>** - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.
 
-**/exclude=<code1,code2,code3...>** - excludes additional characters from the conversion. The codes have to be a valid PETSCII char codes.
+**/exclude=<code1,code2,code3...>** - excludes additional characters from the conversion. The codes have to be valid PETSCII char codes.
 
 **/noalpha=<true|false>** - if true, all alphanumerical characters will be excluded from the conversion. Default is false.
 
