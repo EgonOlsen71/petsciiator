@@ -33,6 +33,7 @@ public class Bitmap {
 	private int[] foregroundColors;
 	private int[] colorCodes;
 	private int backgroundColor;
+	private Integer overriddenBackgroundColor;
 	private int backgroundColorIndex;
 
 	public Bitmap(String fileName, int scale) {
@@ -57,6 +58,10 @@ public class Bitmap {
 
 	public int getHeight() {
 		return img.getHeight();
+	}
+
+	public void setBackgroundColor(int colorIndex) {
+		this.overriddenBackgroundColor = colorIndex;
 	}
 
 	public ConvertedData convertToPetscii(int size, boolean raster, boolean lowerCase) {
@@ -194,6 +199,11 @@ public class Bitmap {
 				maxIdx = idx;
 			}
 			idx++;
+		}
+
+		if (overriddenBackgroundColor != null) {
+			Logger.log("Background color overridden: " + overriddenBackgroundColor);
+			maxIdx = overriddenBackgroundColor;
 		}
 		bgColor = colorMap.getColors()[maxIdx];
 		backgroundColorIndex = maxIdx;

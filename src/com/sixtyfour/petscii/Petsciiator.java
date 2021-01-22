@@ -100,6 +100,12 @@ public class Petsciiator {
 			scale = 1;
 		}
 		scale = Math.max(1, Math.min(4, scale));
+
+		Integer bgColor = getIntArgument("background");
+		if (bgColor != null) {
+			bgColor = Math.max(0, Math.min(15, bgColor));
+		}
+
 		Boolean lowerCase = Boolean.valueOf(getArgument("lowercase"));
 		Boolean noAlpha = Boolean.valueOf(getArgument("noalpha"));
 
@@ -134,7 +140,11 @@ public class Petsciiator {
 				Logger.log("Converting " + pic);
 				Bitmap bitmap = new Bitmap(pic.toString(), scale);
 
+				if (bgColor != null) {
+					bitmap.setBackgroundColor(bgColor);
+				}
 				bitmap.preprocess(algo, colors, boost);
+
 				Petscii petscii = new Petscii(lowerCase);
 				if (noAlpha) {
 					petscii.removeAlphanumericChars();
@@ -203,9 +213,12 @@ public class Petsciiator {
 		System.out.println(
 				"/colormapper=<colorful|soft|dither> - sets the mapper that maps the source image's colors to the VIC II colors. Default is 'colorful'");
 		System.out.println(
-				"/colormode=<0|1|2> - sets the mode used for color conversions when using the default color mapper. Usually, the impact of changing this isn't very huge. Default is 0.");
+				"/colormode=<0|1|2> - sets the color conversion mode when using the soft color mapper. Usually, the impact of changing this isn't very huge. Default is 0.");
 		System.out.println(
 				"/lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.");
+		System.out.println(
+				"/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect");
+		
 	}
 
 	private boolean hasArgument(String arg) {
