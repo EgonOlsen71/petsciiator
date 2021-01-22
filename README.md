@@ -32,8 +32,10 @@ When you start the converter using one of these batch files without specifying a
 
 /colormapper=<colorful|soft|dither> - sets the mapper that maps the source image's colors to the VIC II colors. Default is 'colorful'
 
-/colormode=<0|1|2> - sets the mode used for color conversions. Usually, the impact of changing this isn't very huge. Default is 0.
+/colormode=<0|1|2> - sets the color conversion mode when using the soft color mapper. Usually, the impact of changing this isn't very huge. Default is 0.
 
 /lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.
+
+/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.
 
 
