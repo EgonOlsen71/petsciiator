@@ -7,10 +7,10 @@ A converter tool to convert JPG/PNG images into Commodore PETSCII.
 Input can by any JPG/PNG file of any (reasonable) size. The image will be scaled down to 320*200, so make sure that the aspect ratio of the source image fits this more ore less.
 There are several output formats to choose from:
 
-* image: a 320*200 PNG file
-* basic: a BASIC program in ASCII format for the C64 that displays the image
-* bbs: a SEQ file containing the image for usage in a BBS (you might want to use the /lowercase=true switch in combination with this one)
-* bin: two SEQ files containing the raw screen and color ram data
+* **image**: a 320*200 PNG file
+* **basic**: a BASIC program in ASCII format for the C64 that displays the image
+* **bbs**: a SEQ file containing the image for usage in a BBS (you might want to use the /lowercase=true switch in combination with this one)
+* **bin**: two SEQ files containing the raw screen and color ram data
 
 <img src="https://github.com/EgonOlsen71/petsciiator/blob/master/examples/pet4032-12.jpg" width="320" height="200">  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/pet4032-12_petscii.png)
 
@@ -20,22 +20,44 @@ When you start the converter using one of these batch files without specifying a
 
 ...command line options (either with / or - as prefix):
 
-/target=<target folder> - the target folder in which the generated files will be written. Default is the current work directory.
+**/target=<target folder>** - the target folder in which the generated files will be written. Default is the current work directory.
 
-/format=<image,basic,bbs,bin> - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic
+**/format=<image,basic,bbs,bin>** - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic
 
-/prescale=<1-4> - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.
+**/prescale=<1-4>** - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.
 
-/exclude=<code1,code2,code3...> - excludes additional characters from the conversion. The codes have to be a valid PETSCII char codes.
+**/exclude=<code1,code2,code3...>** - excludes additional characters from the conversion. The codes have to be a valid PETSCII char codes.
 
-/noalpha=<true|false> - if true, all alphanumerical characters will be excluded from the conversion. Default is false.
+**/noalpha=<true|false>** - if true, all alphanumerical characters will be excluded from the conversion. Default is false.
 
-/colormapper=<colorful|soft|dither> - sets the mapper that maps the source image's colors to the VIC II colors. Default is 'colorful'
+**/colormapper=<colorful|soft|dither>** - sets the mapper that maps the source image's colors to the VIC II colors. Default is 'colorful'
 
-/colormode=<0|1|2> - sets the color conversion mode when using the soft color mapper. Usually, the impact of changing this isn't very huge. Default is 0.
+**/colormode=<0|1|2>** - sets the color conversion mode when using the soft color mapper. Usually, the impact of changing this isn't very huge. Default is 0.
 
-/lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.
+**/lowercase=<true|false>** - if true, the lower case PETSCII characters will be used for the conversion. Default is false.
 
-/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.
+**/background=<0-15>** - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.
 
 
+
+# /colormapper and /background explained
+
+In this section, I'll explain the **/colormapper** and the **/background** setting in a little more detail, because it might not be obvious what they do but they can have a huge impact on image quality. Let's take this image of a joystick as an example:
+
+![joystick](https://jpct.de/pix/joystick/stick.jpg)
+
+By default, the colorful color mapper will be used and the background color will be auto detected. In this case, color 15 is taken as a background color. This will provide the most detail in regions of the image which contain at least one pixel in this color. You can clearly see this on the fabric in the background and the stick's edges. The call to generate this image is simply: *petscii stick.jpg*
+
+![joystick color 15](https://jpct.de/pix/joystick/stick_15.png)
+
+But maybe, the auto detected color isn't the one that should have the most detail. In this case, you might want the actual stick to have more details while the fabric in the background doesn't really matter. Because the stick is black (=color 0 on the Commodore 64), you can force the background color to be 0. The call looks like this: *petscii stick.jpg -background=0* and this is the result:
+
+![joystick color 0](https://jpct.de/pix/joystick/stick_0.png)
+
+As you can see, the body of the stick shows more details now while the background is more or less a solid gray area with some white blocks here and there. However, one might think that it should be possible to show even more details on the stick's body. And that's actually true in this case. You can use different color mapper, one that applies dithering when reducing the color depth of the image. For some images, the result might look a bit too chaotic when using this option, but in this case, it actually adds some detail. The call looks like this: *petscii stick.jpg -background=0 -colormapper=dither* and the result like this:
+
+![joystick color 0](https://jpct.de/pix/joystick/stick_dither_0.png)
+
+As you can see, **/colormapper** and **/background** can have a huge impact on the outcome. However, whether they improve the petscii image or not highly depends on the source image itself. For example, you can apply the dithering-color mapper without setting the background color to black on the source image as well. If the result is better with or without it, is a matter of taste:
+
+![joystick color 0](https://jpct.de/pix/joystick/stick_dither.png)
