@@ -26,7 +26,7 @@ When you start the converter using one of these batch files without specifying a
 
 **/prescale=<1-4>** - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.
 
-**/exclude=<code1,code2,code3...>** - excludes additional characters from the conversion. The codes have to be a valid PETSCII char codes.
+**/exclude=<code1,code2,code3...>** - excludes additional characters from the conversion. The codes have to be valid PETSCII char codes.
 
 **/noalpha=<true|false>** - if true, all alphanumerical characters will be excluded from the conversion. Default is false.
 
