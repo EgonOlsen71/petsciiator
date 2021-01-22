@@ -54,7 +54,7 @@ But maybe, the auto detected color isn't the one that should show the most detai
 
 ![joystick color 0](https://jpct.de/pix/joystick/stick_0.png)
 
-As you can see, the body of the stick shows more details now while the background is more or less a solid gray area with some white blocks here and there. However, one might think that it should be possible to show even more details on the stick's body. And that's actually true in this case. You can use different color mapper, one that applies dithering when reducing the color depth of the image. For some images, the result might look a bit too chaotic when using this option, but in this case, it actually adds some detail. The call looks like this: *petscii stick.jpg -background=0 -colormapper=dither* and the result like this:
+As you can see, the body of the stick shows more details now while the background is more or less a solid gray area with some white blocks here and there. However, one might think that it should be possible to show even more details on the stick's body. And that's actually true in this case. You can use a different color mapper, one that applies dithering when reducing the color depth of the image. For some images, the result might look a bit too chaotic when using this option, but in this case, it actually adds some detail. The call looks like this: *petscii stick.jpg -background=0 -colormapper=dither* and the result like this:
 
 ![joystick color 0](https://jpct.de/pix/joystick/stick_dither_0.png)
 
