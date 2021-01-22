@@ -51,6 +51,14 @@ public class Bitmap {
 		return pixels;
 	}
 
+	public int getWidth() {
+		return img.getWidth();
+	}
+
+	public int getHeight() {
+		return img.getHeight();
+	}
+
 	public ConvertedData convertToPetscii(int size, boolean raster, boolean lowerCase) {
 		return convertToPetscii(size, raster, new Petscii(lowerCase));
 	}
@@ -69,7 +77,7 @@ public class Bitmap {
 
 	public ConvertedData convertToPetscii(int size, boolean raster, Petscii petscii) {
 		Logger.log("Converting to PETSCII...");
-		
+
 		List<String> code = new ArrayList<>();
 		ConvertedData conv = new ConvertedData();
 		conv.setCode(code);
@@ -142,9 +150,23 @@ public class Bitmap {
 		return conv;
 	}
 
+	public void preprocess(Algorithm colorAlgorithm, ColorMap colors, int boost) {
+		if (colorAlgorithm == Algorithm.SOFT) {
+			Logger.log("Using soft color reduction algorithm!");
+			reduceColors(colors, boost);
+
+		} else {
+			Logger.log("Using " + ((colorAlgorithm == Algorithm.DITHERED) ? "dithered" : "colorful")
+					+ " color reduction algorithm!");
+			ColorReducer reducer = new ColorReducer();
+			reducer.reduce(this, colors, colorAlgorithm == Algorithm.DITHERED);
+		}
+		rasterize(8, colors);
+	}
+
 	public void rasterize(int size, ColorMap colorMap) {
 		Logger.log("Analyzing image...");
-		
+
 		int colorCount = colorMap.getColors().length;
 		Map<Integer, Integer> color2Index = new HashMap<>();
 		foregroundColors = new int[img.getWidth() / size * img.getHeight() / size];
@@ -215,18 +237,9 @@ public class Bitmap {
 		int[] colorArray = colorMap.getColors();
 		int colors = colorArray.length;
 		int[] pix = new int[pixels.length];
-
-		int colorClamp = 224;
-		if (colors >= 128) {
-			colorClamp = 240;
-		}
-		if (colors >= 256) {
-			colorClamp = 248;
-		}
-
-		Map<Integer, Integer> cols = countColors(boost, pix, colorClamp);
+		Map<Integer, Integer> cols = countColors(boost, pix, 224);
 		List<ColorEntry> allColors = convertColors(colors, cols);
-		
+
 		Logger.log("Converting to VIC2 colors...");
 		mapToColorValues(colorArray, allColors);
 		assignColors(pix, allColors);
@@ -235,6 +248,7 @@ public class Bitmap {
 	}
 
 	public void save(String name) {
+		Logger.log("Writing image " + name);
 		try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(name));
 				ImageOutputStream ios = ImageIO.createImageOutputStream(bos)) {
 			Iterator<ImageWriter> itty = ImageIO.getImageWritersBySuffix("png");
@@ -342,7 +356,7 @@ public class Bitmap {
 
 	private void assignColors(int[] pix, List<ColorEntry> allColors) {
 		for (int i = 0; i < pix.length; i++) {
-			int dist = 0x00FFFFFF;
+			int dist = Integer.MAX_VALUE;
 			int finalColor = 0;
 
 			for (ColorEntry c : allColors) {
@@ -369,7 +383,7 @@ public class Bitmap {
 
 	private void mapToColorValues(int[] colorArray, List<ColorEntry> allColors) {
 		for (ColorEntry c : allColors) {
-			int dist = 0x00FFFFFF;
+			int dist = Integer.MAX_VALUE;
 			int finalColor = 0;
 			int asr = 0;
 			int asb = 0;

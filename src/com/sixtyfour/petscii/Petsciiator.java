@@ -103,6 +103,16 @@ public class Petsciiator {
 		Boolean lowerCase = Boolean.valueOf(getArgument("lowercase"));
 		Boolean noAlpha = Boolean.valueOf(getArgument("noalpha"));
 
+		String algorithm = getArgument("colormapper");
+		Algorithm algo = Algorithm.COLORFUL;
+		if (algorithm != null && !algorithm.isEmpty()) {
+			if (algorithm.equals("soft")) {
+				algo = Algorithm.SOFT;
+			} else if (algorithm.startsWith("dither")) {
+				algo = Algorithm.DITHERED;
+			}
+		}
+
 		File folder = null;
 		if (targetFolder != null && !targetFolder.isEmpty()) {
 			folder = new File(targetFolder);
@@ -124,9 +134,7 @@ public class Petsciiator {
 				Logger.log("Converting " + pic);
 				Bitmap bitmap = new Bitmap(pic.toString(), scale);
 
-				bitmap.reduceColors(colors, boost);
-				bitmap.rasterize(8, colors);
-
+				bitmap.preprocess(algo, colors, boost);
 				Petscii petscii = new Petscii(lowerCase);
 				if (noAlpha) {
 					petscii.removeAlphanumericChars();
@@ -193,7 +201,9 @@ public class Petsciiator {
 		System.out.println(
 				"/noalpha=<true|false> - if true, all alphanumerical characters will be excluded from the conversion. Default is false.");
 		System.out.println(
-				"/colormode=<0|1|2> - sets the mode used for color conversions. Usually, the impact of changing this isn't very huge. Default is 0.");
+				"/colormapper=<colorful|soft|dither> - sets the mapper that maps the source image's colors to the VIC II colors. Default is 'colorful'");
+		System.out.println(
+				"/colormode=<0|1|2> - sets the mode used for color conversions when using the default color mapper. Usually, the impact of changing this isn't very huge. Default is 0.");
 		System.out.println(
 				"/lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.");
 	}
