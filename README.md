@@ -50,7 +50,7 @@ By default, the colorful color mapper will be used and the background color will
 
 ![joystick color 15](https://jpct.de/pix/joystick/stick_15.png)
 
-But maybe, the auto detected color isn't the one that should have the most detail. In this case, you might want the actual stick to have more details while the fabric in the background doesn't really matter. Because the stick is black (=color 0 on the Commodore 64), you can force the background color to be 0. The call looks like this: *petscii stick.jpg -background=0* and this is the result:
+But maybe, the auto detected color isn't the one that should show the most details. In this case, you might want the actual stick to have more details while the fabric in the background doesn't really matter. Because the stick is black (=color 0 on the Commodore 64), you can force the background color to be 0. The call looks like this: *petscii stick.jpg -background=0* and this is the result:
 
 ![joystick color 0](https://jpct.de/pix/joystick/stick_0.png)
 
