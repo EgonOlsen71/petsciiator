@@ -42,7 +42,7 @@ When you start the converter using one of these batch files without specifying a
 
 # /colormapper and /background explained
 
-In this section, I'll explain the **/colormapper** and the **/background** setting in a little more detail, because it might not be obvious what they do but they can have a huge impact on image quality. Let's take this image of a joystick as an example:
+In this section, I'll explain the **/colormapper** and the **/background** settings in a little more detail, because it might not be obvious what they do but they can have a huge impact on image quality. Let's take this image of a joystick as an example:
 
 ![joystick](https://jpct.de/pix/joystick/stick.jpg)
 
