@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import com.sixtyfour.petscii.Logger;
 
 /**
+ * Helper class that merges 3 seq-files into one prg file with a given start address.
  * 
  * @author EgonOlsen
  *
