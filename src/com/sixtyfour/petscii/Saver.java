@@ -75,6 +75,8 @@ public class Saver {
 		file1.delete();
 		File file2 = new File(targetFolder, picName.replace("(?)", "color"));
 		file2.delete();
+		File file3 = new File(targetFolder, picName.replace("(?)", "bgcolor"));
+		file3.delete();
 
 		Logger.log("Writing char data file: " + file1);
 
@@ -92,6 +94,14 @@ public class Saver {
 			for (int val : color) {
 				os.write(val);
 			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+		Logger.log("Writing background color data file: " + file3);
+
+		try (OutputStream os = new FileOutputStream(file3)) {
+			os.write(data.getBackGroundColor());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
