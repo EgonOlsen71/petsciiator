@@ -222,7 +222,7 @@ public class Petsciiator {
 		System.out.println(
 				"/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.");
 		System.out.println(
-				"/platform=<C64|264> - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4 offers more colors)");
+				"/platform=<C64|264> - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4) offers more colors");
 	}
 
 	private boolean hasArgument(String arg) {

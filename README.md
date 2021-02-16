@@ -38,6 +38,8 @@ When you start the converter using one of these batch files without specifying a
 
 **/background=<0-15>** - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.
 
+**/platform=<C64|264>** - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4) offers more colors.
+
 
 
 # /colormapper and /background explained
