@@ -141,7 +141,7 @@ public class Saver {
 						os.write(146);
 						reverse = false;
 					}
-					os.write(COLOR_CODES[col]);
+					os.write(COLOR_CODES[col & 15]);
 					lastCol = col;
 				}
 				if (chr >= 128 && !reverse) {

@@ -64,31 +64,44 @@ public class Bitmap {
 		this.overriddenBackgroundColor = colorIndex;
 	}
 
-	public ConvertedData convertToPetscii(int size, boolean raster, boolean lowerCase) {
-		return convertToPetscii(size, raster, new Petscii(lowerCase));
+	public ConvertedData convertToPetscii(int size, boolean raster, boolean lowerCase, boolean tedMode) {
+		return convertToPetscii(size, raster, new Petscii(lowerCase), tedMode);
 	}
 
-	public ConvertedData convertToPetsciiNonAlpha(int size, boolean raster, boolean lowerCase) {
+	public ConvertedData convertToPetsciiNonAlpha(int size, boolean raster, boolean lowerCase, boolean tedMode) {
 		Petscii petscii = new Petscii(lowerCase);
 		petscii.removeAlphanumericChars();
-		return convertToPetscii(size, raster, petscii);
+		return convertToPetscii(size, raster, petscii, tedMode);
 	}
 
-	public ConvertedData convertToPetsciiOnlyAlpha(int size, boolean raster, boolean lowerCase) {
+	public ConvertedData convertToPetsciiOnlyAlpha(int size, boolean raster, boolean lowerCase, boolean tedMode) {
 		Petscii petscii = new Petscii(lowerCase);
 		petscii.removeGraphicalChars();
-		return convertToPetscii(size, raster, petscii);
+		return convertToPetscii(size, raster, petscii, tedMode);
 	}
 
-	public ConvertedData convertToPetscii(int size, boolean raster, Petscii petscii) {
+	public ConvertedData convertToPetscii(int size, boolean raster, Petscii petscii, boolean tedMode) {
 		Logger.log("Converting to PETSCII...");
 
 		List<String> code = new ArrayList<>();
 		ConvertedData conv = new ConvertedData();
 		conv.setCode(code);
+		int vRam = 1024;
+		int cRam = 55296;
 
-		code.add("60000 poke53280," + backgroundColorIndex + ":poke53281," + backgroundColorIndex + ":printchr$(147);");
-		code.add("60010 fori=0to999:readp,c:poke1024+i,p:poke55296+i,c:next");
+		if (tedMode) {
+			vRam = 3072;
+			cRam = 2048;
+			int color = 1 + backgroundColorIndex & 15;
+			int intensity = (int) (backgroundColorIndex / 16);
+			code.add("60000 color0," + color + "," + intensity + ":color4," + color + "," + intensity
+					+ ":printchr$(147);");
+		} else {
+			code.add("60000 poke53280," + backgroundColorIndex + ":poke53281," + backgroundColorIndex
+					+ ":printchr$(147);");
+		}
+
+		code.add("60010 fori=0to999:readp,c:poke" + vRam + "+i,p:poke" + cRam + "+i,c:next");
 		code.add("60020 geta$:ifa$=\"\"then60020:end");
 
 		int width = img.getWidth();

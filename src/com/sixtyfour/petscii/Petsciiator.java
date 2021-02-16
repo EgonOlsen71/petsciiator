@@ -79,7 +79,10 @@ public class Petsciiator {
 			files = new File[] { src };
 		}
 
-		ColorMap colors = new Vic2Colors();
+		boolean tedMode = "264".equals(getArgument("platform"));
+		ColorMap colors = tedMode ? new TedColors() : new Vic2Colors();
+
+		Logger.log("Using color map for: " + (tedMode ? "TED" : "VIC II"));
 
 		int boost = 1;
 		Integer boostArg = getIntArgument("colormode");
@@ -103,7 +106,7 @@ public class Petsciiator {
 
 		Integer bgColor = getIntArgument("background");
 		if (bgColor != null) {
-			bgColor = Math.max(0, Math.min(15, bgColor));
+			bgColor = Math.max(0, Math.min(tedMode ? 127 : 15, bgColor));
 		}
 
 		Boolean lowerCase = Boolean.valueOf(getArgument("lowercase"));
@@ -160,7 +163,7 @@ public class Petsciiator {
 					}
 				}
 
-				ConvertedData data = bitmap.convertToPetscii(8, false, petscii);
+				ConvertedData data = bitmap.convertToPetscii(8, false, petscii, tedMode);
 
 				if (formats.contains("image")) {
 					Saver.savePetsciiImage(pic, bitmap, folder);
@@ -218,7 +221,8 @@ public class Petsciiator {
 				"/lowercase=<true|false> - if true, the lower case PETSCII characters will be used for the conversion. Default is false.");
 		System.out.println(
 				"/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.");
-		
+		System.out.println(
+				"/platform=<C64|264> - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4 offers more colors)");
 	}
 
 	private boolean hasArgument(String arg) {
