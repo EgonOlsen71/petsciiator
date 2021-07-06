@@ -36,7 +36,7 @@ public class Saver {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
-			return file.getPath();
+			return unify(file.getPath());
 		}
 		return null;
 	}
@@ -54,7 +54,7 @@ public class Saver {
 			file.delete();
 			Logger.log("Writing image: " + file);
 			bitmap.save(file.getPath());
-			return file.getPath();
+			return unify(file.getPath());
 		}
 		return null;
 	}
@@ -109,7 +109,7 @@ public class Saver {
 			throw new RuntimeException(e);
 		}
 		
-		return new String[] {file1.getPath(), file2.getPath(), file3.getPath()};
+		return new String[] {unify(file1.getPath()), unify(file2.getPath()), unify(file3.getPath())};
 	}
 
 	public static String savePetsciiBbs(File pic, ConvertedData data, File targetFolder) {
@@ -171,7 +171,11 @@ public class Saver {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return file.getPath();
+		return unify(file.getPath());
+	}
+	
+	private static String unify(String path) {
+		return path.replace('\\', '/');
 	}
 
 }
