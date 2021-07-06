@@ -16,7 +16,7 @@ public class Saver {
 	private static final int[] COLOR_CODES = { 144, 5, 28, 159, 156, 30, 31, 158, 129, 149, 150, 151, 152, 153, 154,
 			155 };
 
-	public static void savePetsciiBasicCode(File pic, ConvertedData data, File targetFolder) {
+	public static String savePetsciiBasicCode(File pic, ConvertedData data, File targetFolder) {
 		List<String> code = data.getCode();
 		String codeName = pic.toString().replace("\\", "/");
 		if (!codeName.contains("/")) {
@@ -36,11 +36,12 @@ public class Saver {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			return file.getPath();
 		}
-
+		return null;
 	}
 
-	public static void savePetsciiImage(File pic, Bitmap bitmap, File targetFolder) {
+	public static String savePetsciiImage(File pic, Bitmap bitmap, File targetFolder) {
 		String picName = pic.toString().replace("\\", "/");
 		if (!picName.contains("/")) {
 			picName = "/" + picName;
@@ -53,10 +54,12 @@ public class Saver {
 			file.delete();
 			Logger.log("Writing image: " + file);
 			bitmap.save(file.getPath());
+			return file.getPath();
 		}
+		return null;
 	}
 
-	public static void savePetsciiBin(File pic, ConvertedData data, File targetFolder) {
+	public static String[] savePetsciiBin(File pic, ConvertedData data, File targetFolder) {
 		int[] screen = data.getScreenRam();
 		int[] color = data.getColorRam();
 
@@ -87,7 +90,7 @@ public class Saver {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
+		
 		Logger.log("Writing color data file: " + file2);
 
 		try (OutputStream os = new FileOutputStream(file2)) {
@@ -105,9 +108,11 @@ public class Saver {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		
+		return new String[] {file1.getPath(), file2.getPath(), file3.getPath()};
 	}
 
-	public static void savePetsciiBbs(File pic, ConvertedData data, File targetFolder) {
+	public static String savePetsciiBbs(File pic, ConvertedData data, File targetFolder) {
 		int[] screen = data.getScreenRam();
 		int[] color = data.getColorRam();
 
@@ -166,6 +171,7 @@ public class Saver {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		return file.getPath();
 	}
 
 }
