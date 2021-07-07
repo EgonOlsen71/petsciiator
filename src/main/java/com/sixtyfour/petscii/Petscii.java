@@ -13,6 +13,8 @@ public class Petscii {
 	private List<int[]> chars = new ArrayList<>();
 	private List<Value[]> values = new ArrayList<>();
 
+	private float symbolBoost = 1;
+
 	private final static int[] ALPHAS = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
 			23, 24, 25, 26, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57 };
 
@@ -37,6 +39,14 @@ public class Petscii {
 			petsciiCode[i] = convert2ScreenCode(petsciiCode[i]);
 		}
 		remove(petsciiCode);
+	}
+
+	public float getSymbolBoost() {
+		return symbolBoost;
+	}
+
+	public void setSymbolBoost(float symbolBoost) {
+		this.symbolBoost = symbolBoost;
 	}
 
 	public void removeControlCodes() {
@@ -199,6 +209,11 @@ public class Petscii {
 		for (int i = 0; i < values.size(); i++) {
 			Value[] qs = values.get(i);
 			if (qs != null) {
+				float boost = 1;
+				if ((i>=64 && i<= 127) || (i>=192 && i<= 255)) {
+					boost=symbolBoost;
+				}
+				
 				float d1 = qs[0].value - q1.value;
 				float d2 = qs[1].value - q2.value;
 				float d3 = qs[2].value - q3.value;
@@ -212,6 +227,7 @@ public class Petscii {
 
 				double delta = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3 + d4 * d4 + d5 * d5 + d6 * d6 + d7 * d7 + d8 * d8
 						+ d9 * d9 + d10 * d10);
+				delta/=boost;
 				if (delta < dist) {
 					idx = i;
 					dist = delta;

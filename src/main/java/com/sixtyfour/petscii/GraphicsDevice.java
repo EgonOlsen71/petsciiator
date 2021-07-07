@@ -84,6 +84,11 @@ public class GraphicsDevice {
 		getContext().setColor(color);
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void plot(int x, int y) {
 		if (x >= 0 && x < width && y >= 0 && y < height) {
 			getScreen().setRGB(x, y, color.getRGB());

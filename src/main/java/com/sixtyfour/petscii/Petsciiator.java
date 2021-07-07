@@ -104,6 +104,12 @@ public class Petsciiator {
 		}
 		scale = Math.max(1, Math.min(4, scale));
 
+		Integer sboost = this.getIntArgument("symbolboost");
+		float symbolBoost=1f;
+		if (sboost != null) {
+			symbolBoost=(float) sboost/10;
+		}
+		
 		Integer bgColor = getIntArgument("background");
 		if (bgColor != null) {
 			bgColor = Math.max(0, Math.min(tedMode ? 127 : 15, bgColor));
@@ -156,6 +162,8 @@ public class Petsciiator {
 				if (formats.contains("bbs")) {
 					petscii.removeControlCodes();
 				}
+				petscii.setSymbolBoost(symbolBoost);
+				
 				if (!excludes.isEmpty()) {
 					for (String exclude : excludes) {
 						Integer exi = Integer.valueOf(exclude.trim());
@@ -223,6 +231,8 @@ public class Petsciiator {
 				"/background=<0-15> - overrides the auto detected background color. Can be useful to get more details in regions of the image, where the auto detected color isn't used much. Default is auto detect.");
 		System.out.println(
 				"/platform=<C64|264> - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4) offers more colors");
+		System.out.println(
+				"/symbolboost=<0-xxx> - values > 10 favour actual graphic symbols over other characters, values below favour other characters over symbols. Negative values will invert the image. Default is 10.");
 	}
 
 	private boolean hasArgument(String arg) {
