@@ -1,5 +1,5 @@
 # petsciiator
-A converter tool to convert JPG/PNG images into Commodore PETSCII.
+A converter tool to convert JPG/PNG images into Commodore PETSCII. There an online version of it available here: https://jpct.de/petscii
 
 ![source image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/ninja.png)  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/ninja_petscii.png)
 
