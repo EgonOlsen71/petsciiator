@@ -4,7 +4,21 @@ public abstract class AbstractColors implements ColorMap {
 
 	@Override
 	public int getClosestColor(int color) {
-		int[] colors=getColors();
+		return getClosestColor(color, getColors());
+	}
+	
+	@Override
+	public int getClosestColor(int color, int[] colors) {
+		return colors[getClosestColorIndex(color, colors)];
+	}
+	
+	@Override
+	public int getClosestColorIndex(int color) {
+		return getClosestColorIndex(color, getColors());
+	}
+	
+	@Override
+	public int getClosestColorIndex(int color, int[] colors) {
 		int rc = (color & 0x00ff0000) >> 16;
 		int gc = (color & 0x0000ff00) >> 8;
 		int bc = color & 0xff;
@@ -29,8 +43,8 @@ public abstract class AbstractColors implements ColorMap {
 			}
 			idx++;
 		}
-
-		return colors[minIdx];
+		return minIdx;
 	}
+	
 
 }

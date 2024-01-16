@@ -36,12 +36,21 @@ public class Bitmap {
 	private Integer overriddenBackgroundColor;
 	private int backgroundColorIndex;
 
+	public Bitmap(BufferedImage img) {
+		this.img = img;
+		grabPixels();
+	}
+	
 	public Bitmap(String fileName, int scale) {
 		load(fileName, scale);
 	}
 
 	public Bitmap(String fileName, boolean fitTo320, int scale) {
-		load(fileName, fitTo320, scale);
+		load(fileName, 320, scale);
+	}
+	
+	public Bitmap(String fileName, int fitTo, int scale) {
+		load(fileName, fitTo, scale);
 	}
 
 	public BufferedImage getImage() {
@@ -62,6 +71,10 @@ public class Bitmap {
 
 	public void setBackgroundColor(int colorIndex) {
 		this.overriddenBackgroundColor = colorIndex;
+	}
+	
+	public int getBackgroundColor() {
+		return this.overriddenBackgroundColor;
 	}
 
 	public ConvertedData convertToPetscii(int size, boolean raster, boolean lowerCase, boolean tedMode) {
@@ -270,6 +283,12 @@ public class Bitmap {
 		System.arraycopy(pix, 0, pixels, 0, pix.length);
 	}
 
+	public void resize(int width, int height) {
+		BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		target.getGraphics().drawImage(img, 0, 0, width, height, null);
+		img = target;
+	}
+	
 	public void save(String name) {
 		Logger.log("Writing image " + name);
 		try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(name));
@@ -287,10 +306,10 @@ public class Bitmap {
 	}
 
 	private void load(String imgName, int scale) {
-		load(imgName, true, scale);
+		load(imgName, 320, scale);
 	}
 
-	private void load(String imgName, boolean fitTo320, int scale) {
+	private void load(String imgName, int fitTo, int scale) {
 		try {
 			InputStream is = this.getClass().getResourceAsStream(imgName);
 			if (is != null) {
@@ -304,14 +323,14 @@ public class Bitmap {
 			throw new RuntimeException(e);
 		}
 		BufferedImage target = null;
-		if (fitTo320) {
+		if (fitTo>0) {
 			int dif = scale;
 
-			BufferedImage target2 = new BufferedImage(320 / dif, 200 / dif, BufferedImage.TYPE_INT_RGB);
-			target2.getGraphics().drawImage(img, 0, 0, 320 / dif, 200 / dif, null);
+			BufferedImage target2 = new BufferedImage(fitTo / dif, 200 / dif, BufferedImage.TYPE_INT_RGB);
+			target2.getGraphics().drawImage(img, 0, 0, fitTo / dif, 200 / dif, null);
 
-			target = new BufferedImage(320, 200, BufferedImage.TYPE_INT_RGB);
-			target.getGraphics().drawImage(target2, 0, 0, 320, 200, null);
+			target = new BufferedImage(fitTo, 200, BufferedImage.TYPE_INT_RGB);
+			target.getGraphics().drawImage(target2, 0, 0, fitTo, 200, null);
 		} else {
 			target = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
 			target.getGraphics().drawImage(img, 0, 0, null);

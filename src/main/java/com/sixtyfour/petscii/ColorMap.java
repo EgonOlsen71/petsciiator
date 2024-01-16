@@ -11,4 +11,10 @@ public interface ColorMap {
 	
 	int getClosestColor(int color);
 	
+	int getClosestColor(int color, int[] colors);
+
+	int getClosestColorIndex(int color, int[] colors);
+
+	int getClosestColorIndex(int color);
+	
 }

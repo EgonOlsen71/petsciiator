@@ -1,5 +1,6 @@
 package com.sixtyfour.petscii;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -41,6 +42,15 @@ public class Saver {
 		return null;
 	}
 
+	public static void saveByteArray(String target, byte[] bytes) {
+		Logger.log("Writing byte array " + target);
+		try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(target))) {
+			bos.write(bytes);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public static String savePetsciiImage(File pic, Bitmap bitmap, File targetFolder) {
 		String picName = pic.toString().replace("\\", "/");
 		if (!picName.contains("/")) {

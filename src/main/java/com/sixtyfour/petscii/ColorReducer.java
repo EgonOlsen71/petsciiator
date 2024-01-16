@@ -7,7 +7,15 @@ package com.sixtyfour.petscii;
  */
 public class ColorReducer {
 
+	public void reduce(Bitmap input, ColorMap palette, float ditherWeight) {
+		reduce(input, palette, true, ditherWeight);
+	}
+	
 	public void reduce(Bitmap input, ColorMap palette, boolean dither) {
+		reduce(input, palette, dither, 1);
+	}
+	
+	public void reduce(Bitmap input, ColorMap palette, boolean dither, float weight) {
 		int[] pixels = input.getPixels();
 		int width = input.getWidth();
 		int height = input.getHeight();
@@ -22,7 +30,7 @@ public class ColorReducer {
 				pixels[pos] = newCol;
 
 				if (dither) {
-					error.set(col, newCol);
+					error.set(col, newCol, weight);
 
 					if (x < width - 1) {
 						pixels[pos + 1] = error.quantColor(pixels[pos + 1], 7d / 16d);
@@ -48,7 +56,7 @@ public class ColorReducer {
 			//
 		}
 
-		public void set(int color1, int color2) {
+		public void set(int color1, int color2, float weight) {
 			int r1 = (color1 & 0x00ff0000) >> 16;
 			int g1 = (color1 & 0x0000ff00) >> 8;
 			int b1 = color1 & 0xff;
@@ -57,9 +65,9 @@ public class ColorReducer {
 			int g2 = (color2 & 0x0000ff00) >> 8;
 			int b2 = color2 & 0xff;
 
-			rd = r1 - r2;
-			gd = g1 - g2;
-			bd = b1 - b2;
+			rd = (r1 - r2)*weight;
+			gd = (g1 - g2)*weight;
+			bd = (b1 - b2)*weight;
 		}
 
 		public int quantColor(int color, double mul) {
