@@ -14,7 +14,7 @@ public class KoalaConverter {
      * @param ditherStrength
      * @param savePngCopy
      */
-    public static void convert(String source, String target, float gamma, float ditherStrength, boolean savePngCopy) {
+    public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean savePngCopy) {
         long start = System.currentTimeMillis();
         ditherStrength = Math.min(1, ditherStrength);
         Bitmap image = new Bitmap(source, 160, 1);
@@ -23,12 +23,12 @@ public class KoalaConverter {
        }
         ColorReducer dither = new ColorReducer();
         if (ditherStrength>0) {
-            dither.reduce(image, new Vic2Colors(), ditherStrength);
+            dither.reduce(image, colors, ditherStrength);
         } else {
-            dither.reduce(image, new Vic2Colors(), false);
+            dither.reduce(image, colors, false);
         }
 
-        MulticolorConverter conv = new MulticolorConverter();
+        MulticolorConverter conv = new MulticolorConverter(colors);
         Bitmap mci = conv.convert(image);
         byte[] koala = conv.createKoalaImage(mci);
         Saver.saveByteArray(target, koala);

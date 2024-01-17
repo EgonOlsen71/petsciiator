@@ -25,6 +25,16 @@ import java.util.Map.Entry;
  */
 public class MulticolorConverter {
 
+	private ColorMap colors = new Vic2VibrantColors();
+
+	public MulticolorConverter() {
+		//
+	}
+
+	public MulticolorConverter(ColorMap colors) {
+		this.colors = colors;
+	}
+
 	public Bitmap convert(Bitmap bitmap) {
 		if (bitmap.getHeight()!=200 || bitmap.getWidth()!=160) {
 			bitmap.resize(160, 200);
@@ -33,8 +43,6 @@ public class MulticolorConverter {
 		DataBufferInt data = (DataBufferInt) bitmap.getImage().getRaster().getDataBuffer();
 		int[] pixels = data.getData();
 		int[] indexMap = new int[pixels.length];
-		
-		ColorMap colors = new Vic2Colors();
 		
 		int background = findBackgroundColor(pixels, colors);
 		for (int y=0; y<200; y+=8) {
@@ -59,7 +67,6 @@ public class MulticolorConverter {
 	
 	public byte[] createKoalaImage(Bitmap bitmap) {
 		try {
-			ColorMap colors = new Vic2Colors();
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			bos.write(0x00);
 			bos.write(0x60);
