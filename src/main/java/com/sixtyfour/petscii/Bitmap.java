@@ -77,6 +77,23 @@ public class Bitmap {
 		return this.overriddenBackgroundColor;
 	}
 
+	public void enhanceColors(float gamma) {
+		for (int i=0; i<pixels.length; i++) {
+			int color = pixels[i];
+			float r = (color & 0x00ff0000) >> 16;
+			float g = (color & 0x0000ff00) >> 8;
+			float b = color & 0xff;
+			r=(float) Math.pow(r, gamma);
+			g=(float) Math.pow(g, gamma);
+			b=(float) Math.pow(b, gamma);
+			r=Math.min(255,r);
+			g=Math.min(255,g);
+			b=Math.min(255,b);
+			color = ((int) r)<<16 | ((int) g)<<8 | ((int) b);
+			pixels[i] = color;
+		}
+	}
+
 	public ConvertedData convertToPetscii(int size, boolean raster, boolean lowerCase, boolean tedMode) {
 		return convertToPetscii(size, raster, new Petscii(lowerCase), tedMode);
 	}

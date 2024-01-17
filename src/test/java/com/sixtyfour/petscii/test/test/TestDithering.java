@@ -1,4 +1,4 @@
-package com.sixtyfour.petscii.test;
+package com.sixtyfour.petscii.test.test;
 
 import java.awt.Image;
 
@@ -17,16 +17,16 @@ import com.sixtyfour.petscii.Vic2Colors;
 public class TestDithering {
 
 	public static void main(String[] args) {
-		Bitmap image = new Bitmap("E:/src/workspace2018/Petsciiator/examples/test.jpg", false, 1);
+		Bitmap image = new Bitmap("examples/test.jpg", false, 1);
 		ColorReducer dither = new ColorReducer();
 		dither.reduce(image, new Vic2Colors(), true);
-		image.save("E:/src/workspace2018/Petsciiator/results/test1.png");
+		image.save("results/test1.png");
 		
-		image = new Bitmap("E:/src/workspace2018/Petsciiator/examples/test.jpg", 160, 1);
+		image = new Bitmap("examples/test.jpg", 160, 1);
 		dither.reduce(image, new Vic2Colors(), true);
 		image.resize(320, 200);
-		image.save("E:/src/workspace2018/Petsciiator/results/test2.1.png");
-		
+		image.save("results/test2.1.png");
+		/*
 		MulticolorConverter conv = new MulticolorConverter();
 		Bitmap mci = conv.convert(image);
 		byte[] koala = conv.createKoalaImage(mci);
@@ -60,6 +60,8 @@ public class TestDithering {
 		conv = new MulticolorConverter();
 		mci = conv.convert(image);
 		mci.save("E:/src/workspace2018/Petsciiator/results/test3-koala.png");
+		*/
+
 	}
 
 }

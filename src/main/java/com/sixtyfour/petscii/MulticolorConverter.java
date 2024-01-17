@@ -113,16 +113,16 @@ public class MulticolorConverter {
 				if (!cols.containsKey(colIndex)) {
 					int size = cols.size();
 					cols.put(colIndex, size);
-					System.out.println(ramPos+"/"+colIndex+"/"+size);
+					//System.out.println(ramPos+"/"+colIndex+"/"+size);
 					switch(size) {
 						case 0:
 								colorRam[ramPos]=(byte) (colIndex & 0xff);
 								break;
+						case 1:
+								textRam[ramPos]=(byte) ((textRam[ramPos] | ((colIndex & 0xff)<<4))  & 0xff);
+								break;
 						case 2: 
 								textRam[ramPos]=(byte) ((textRam[ramPos] | (colIndex & 0xff)) & 0xff);
-								break;
-						case 1: 
-								textRam[ramPos]=(byte) ((textRam[ramPos] | ((colIndex & 0xff)<<4))  & 0xff);
 								break;
 					}
 					
@@ -171,14 +171,11 @@ public class MulticolorConverter {
 		}
 		
 		List<Integer> indices = new ArrayList<>(colCnt.keySet());
-		Collections.sort(indices, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer i0, Integer i1) {
-				Integer c0 = colCnt.get(i0);
-				Integer c1 = colCnt.get(i1);
-				return c1.compareTo(c0);
-			}
-		});
+		Collections.sort(indices, (i0, i1) -> {
+            Integer c0 = colCnt.get(i0);
+            Integer c1 = colCnt.get(i1);
+            return c1.compareTo(c0);
+        });
 		
 		int[] colSet = new int[Math.min(4, indices.size()+1)];
 		indices = indices.subList(0, Math.min(indices.size(),3));
