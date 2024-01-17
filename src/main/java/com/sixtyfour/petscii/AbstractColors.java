@@ -36,7 +36,7 @@ public abstract class AbstractColors implements ColorMap {
 			float dg = gd - gc;
 			float db = bd - bc;
 
-			float dist = (float) Math.sqrt(dr * dr + dg * dg + db * db);
+			float dist = dr * dr + dg * dg + db * db;
 			if (dist < minVal) {
 				minIdx = idx;
 				minVal = dist;
