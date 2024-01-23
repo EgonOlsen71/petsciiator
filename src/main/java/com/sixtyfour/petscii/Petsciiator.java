@@ -185,6 +185,10 @@ public class Petsciiator {
 				if (formats.contains("bin")) {
 					Saver.savePetsciiBin(pic, data, folder);
 				}
+				if (formats.contains("koala")) {
+					String piccy = pic.toString();
+					KoalaConverter.convert(piccy, Saver.createTempFileName(pic, folder, "koala.koa").toString(), new Vic2Colors(), 1, 1, false);
+				}
 
 				Logger.log("Background color is: " + data.getBackGroundColor());
 
@@ -214,7 +218,7 @@ public class Petsciiator {
 		System.out.println(
 				"/target=<target folder> - the target folder in which the generated files will be written. Default is the current work directory.");
 		System.out.println(
-				"/format=<image,basic,bbs,bin> - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic.");
+				"/format=<image,basic,bbs,bin,koala> - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic.");
 		System.out.println(
 				"/prescale=<1-4> - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.");
 		System.out.println(
