@@ -46,7 +46,7 @@ public class Bitmap {
 	}
 
 	public Bitmap(String fileName, boolean fitTo320, int scale) {
-		load(fileName, 320, scale);
+		load(fileName, fitTo320?320:0, scale);
 	}
 	
 	public Bitmap(String fileName, int fitTo, int scale) {

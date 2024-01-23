@@ -109,7 +109,9 @@ public class Petsciiator {
 		if (sboost != null) {
 			symbolBoost=(float) sboost/10;
 		}
-		
+
+		Integer koalaDither = this.getIntArgument("koaladither");
+
 		Integer bgColor = getIntArgument("background");
 		if (bgColor != null) {
 			bgColor = Math.max(0, Math.min(tedMode ? 127 : 15, bgColor));
@@ -187,7 +189,11 @@ public class Petsciiator {
 				}
 				if (formats.contains("koala")) {
 					String piccy = pic.toString();
-					KoalaConverter.convert(piccy, Saver.createTempFileName(pic, folder, "koala.koa").toString(), new Vic2Colors(), 1, 1, false);
+					if (koalaDither==null) {
+						koalaDither = 100;
+					}
+					koalaDither = Math.max(0, Math.min(koalaDither,100));
+					KoalaConverter.convert(piccy, Saver.createTempFileName(pic, folder, "koala.koa").toString(), new Vic2Colors(), 1, ((float) koalaDither)/100f, false);
 				}
 
 				Logger.log("Background color is: " + data.getBackGroundColor());
@@ -237,6 +243,9 @@ public class Petsciiator {
 				"/platform=<C64|264> - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4) offers more colors");
 		System.out.println(
 				"/symbolboost=<0-xxx> - values > 10 favour actual graphic symbols over other characters, values below favour other characters over symbols. Negative values will invert the image. Default is 10.");
+		System.out.println(
+				"/koaladither=<0-100> - Dithering strength for Koala Painter conversion. This doesn't affect the PETSCII conversion.");
+
 	}
 
 	private boolean hasArgument(String arg) {
