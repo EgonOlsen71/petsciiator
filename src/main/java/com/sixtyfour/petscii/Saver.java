@@ -50,7 +50,24 @@ public class Saver {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
+	public static File createTempFileName(File pic, File targetFolder, String appendix) {
+		String picName = pic.toString().replace("\\", "/");
+		if (!picName.contains("/")) {
+			picName = "/" + picName;
+		}
+
+		int pos = picName.lastIndexOf(".");
+		int pos2 = picName.lastIndexOf("/");
+		if (pos != -1 && pos2 != -1) {
+			picName = picName.substring(pos2 + 1, pos) + "_" + appendix;
+			File file = new File(targetFolder, picName);
+			file.delete();
+			return file;
+		}
+		return null;
+	}
+
 	public static String savePetsciiImage(File pic, Bitmap bitmap, File targetFolder) {
 		String picName = pic.toString().replace("\\", "/");
 		if (!picName.contains("/")) {
