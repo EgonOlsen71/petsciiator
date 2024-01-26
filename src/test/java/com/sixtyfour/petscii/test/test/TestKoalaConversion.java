@@ -17,6 +17,16 @@ public class TestKoalaConversion {
             KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_mild.koa", colors, gamma, 0.1f, true);
             KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_none.koa", colors, gamma, 0, true);
         }
+        
+        pics = new String[]{"dragon.jpg", "coast.png"};
+
+        for (String pic:pics) {
+            String targetPic = pic.replace(".jpg", "").replace(".png", "");
+            KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_full.koa", colors, gamma, 1, true, true);
+            KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_half.koa", colors, gamma, 0.5f, true, true);
+            KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_mild.koa", colors, gamma, 0.1f, true, true);
+            KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_none.koa", colors, gamma, 0, true, true);
+        }
     }
 
 }

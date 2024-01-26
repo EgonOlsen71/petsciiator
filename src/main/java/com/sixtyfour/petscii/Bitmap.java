@@ -42,14 +42,24 @@ public class Bitmap {
 	}
 	
 	public Bitmap(String fileName, int scale) {
-		load(fileName, scale);
+		TargetDimensions td = new TargetDimensions(320, 200, false);
+		load(fileName, td, scale);
 	}
 
 	public Bitmap(String fileName, boolean fitTo320, int scale) {
-		load(fileName, fitTo320?320:0, scale);
+		TargetDimensions td = fitTo320?new TargetDimensions(320, 200, false):null;
+		load(fileName, td, scale);
 	}
 	
 	public Bitmap(String fileName, int fitTo, int scale) {
+		TargetDimensions td = null;
+		if (fitTo>0) {
+			td = new TargetDimensions(320, 200, false);
+		}
+		load(fileName, td, scale);
+	}
+	
+	public Bitmap(String fileName, TargetDimensions fitTo, int scale) {
 		load(fileName, fitTo, scale);
 	}
 
@@ -322,11 +332,8 @@ public class Bitmap {
 		}
 	}
 
-	private void load(String imgName, int scale) {
-		load(imgName, 320, scale);
-	}
 
-	private void load(String imgName, int fitTo, int scale) {
+	private void load(String imgName, TargetDimensions td, int scale) {
 		try {
 			InputStream is = this.getClass().getResourceAsStream(imgName);
 			if (is != null) {
@@ -340,14 +347,43 @@ public class Bitmap {
 			throw new RuntimeException(e);
 		}
 		BufferedImage target = null;
-		if (fitTo>0) {
+		if (td!=null) {
 			int dif = scale;
-
-			BufferedImage target2 = new BufferedImage(fitTo / dif, 200 / dif, BufferedImage.TYPE_INT_RGB);
-			target2.getGraphics().drawImage(img, 0, 0, fitTo / dif, 200 / dif, null);
-
-			target = new BufferedImage(fitTo, 200, BufferedImage.TYPE_INT_RGB);
-			target.getGraphics().drawImage(target2, 0, 0, fitTo, 200, null);
+			int width = td.getWidth();
+			int height = td.getHeight();
+			
+			int owidth = width;
+			int oheight = height;
+			
+			if (!td.isKeepRatio()) {
+				// Scale to fit...
+				BufferedImage target2 = new BufferedImage(width / dif, height / dif, BufferedImage.TYPE_INT_RGB);
+				target2.getGraphics().drawImage(img, 0, 0, width / dif, height / dif, null);
+	
+				target = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+				target.getGraphics().drawImage(target2, 0, 0, width, height, null);
+			} else {
+				float ratio = (float) img.getWidth()/(float) img.getHeight();
+				float targetRatio = (float) td.getWidth()*td.getPixelRatio()/(float) td.getHeight();
+				int offsetX=0;
+				int offsetY=0;
+				Logger.log("Image ratio: "+ratio+" / target ratio: "+targetRatio);
+				if (ratio>=targetRatio) {
+					height = (int) ((float) height / ratio);
+					offsetY = oheight/2-height/2;
+				} else {
+					width = (int) ((float) width / targetRatio);
+					offsetX = owidth/2-width/2;
+				}
+				Logger.log("New image dimensions are: "+width+"*"+height+" - "+offsetX+"/"+offsetY);
+				// Keep aspect ration of original image...
+				BufferedImage target2 = new BufferedImage(width / dif, height / dif, BufferedImage.TYPE_INT_RGB);
+				target2.getGraphics().drawImage(img, 0, 0, width / dif, height / dif, null);
+	
+				target = new BufferedImage(owidth, oheight, BufferedImage.TYPE_INT_RGB);
+				target.getGraphics().drawImage(target2, offsetX, offsetY, width, height, null);
+			}
+			
 		} else {
 			target = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
 			target.getGraphics().drawImage(img, 0, 0, null);
