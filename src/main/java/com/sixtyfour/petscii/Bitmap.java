@@ -346,6 +346,9 @@ public class Bitmap {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		if (img==null) {
+			throw new RuntimeException("Failed to process image!");
+		}
 		BufferedImage target = null;
 		if (td!=null) {
 			int dif = scale;

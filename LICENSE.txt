@@ -22,3 +22,7 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org>
+
+This doesn't apply to the jars in the lib-directory. These are part of
+the twelvemonkeys library for loading WEBp and the corresponding license
+applies to them.

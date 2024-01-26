@@ -12,12 +12,12 @@ import com.sixtyfour.petscii.Vic2Colors;
 public class TestDithering {
 
 	public static void main(String[] args) {
-		Bitmap image = new Bitmap("examples/test.jpg", false, 1);
+		Bitmap image = new Bitmap("examples/koala/test.jpg", false, 1);
 		ColorReducer dither = new ColorReducer();
 		dither.reduce(image, new Vic2Colors(), true);
 		image.save("results/test1.png");
 		
-		image = new Bitmap("examples/test.jpg", 160, 1);
+		image = new Bitmap("examples/koala/test.jpg", 160, 1);
 		dither.reduce(image, new Vic2Colors(), true);
 		image.resize(320, 200);
 		image.save("results/test2.1.png");
