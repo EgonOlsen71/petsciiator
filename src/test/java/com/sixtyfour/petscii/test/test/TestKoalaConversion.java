@@ -18,7 +18,7 @@ public class TestKoalaConversion {
             KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_none.koa", colors, gamma, 0, true);
         }
         
-        pics = new String[]{"dragon.jpg", "coast.png"};
+        pics = new String[]{"dragon.jpg", "coast.png", "painting.jpg"};
 
         for (String pic:pics) {
             String targetPic = pic.replace(".jpg", "").replace(".png", "");

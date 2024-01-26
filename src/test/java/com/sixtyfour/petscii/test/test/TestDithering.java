@@ -1,12 +1,7 @@
 package com.sixtyfour.petscii.test.test;
 
-import java.awt.Image;
-
 import com.sixtyfour.petscii.Bitmap;
 import com.sixtyfour.petscii.ColorReducer;
-import com.sixtyfour.petscii.Logger;
-import com.sixtyfour.petscii.MulticolorConverter;
-import com.sixtyfour.petscii.Saver;
 import com.sixtyfour.petscii.Vic2Colors;
 
 /**

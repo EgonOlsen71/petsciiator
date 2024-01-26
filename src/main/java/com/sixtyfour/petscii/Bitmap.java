@@ -369,10 +369,10 @@ public class Bitmap {
 				int offsetY=0;
 				Logger.log("Image ratio: "+ratio+" / target ratio: "+targetRatio);
 				if (ratio>=targetRatio) {
-					height = (int) ((float) height / ratio);
+					height = (int) ((float) height / (ratio/targetRatio));
 					offsetY = oheight/2-height/2;
 				} else {
-					width = (int) ((float) width / targetRatio);
+					width = (int) ((float) width / (targetRatio/ratio));
 					offsetX = owidth/2-width/2;
 				}
 				Logger.log("New image dimensions are: "+width+"*"+height+" - "+offsetX+"/"+offsetY);
