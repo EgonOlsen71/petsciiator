@@ -12,6 +12,32 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<dependencies>
+			<dependency>
+				<groupId>com.twelvemonkeys.imageio</groupId>
+				<artifactId>imageio-metadata</artifactId>
+				<version>3.11.0</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.twelvemonkeys.imageio</groupId>
+				<artifactId>imageio-image</artifactId>
+				<version>3.11.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.twelvemonkeys.imageio</groupId>
+				<artifactId>imageio-core</artifactId>
+				<version>3.11.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.twelvemonkeys.imageio</groupId>
+				<artifactId>imageio-webp</artifactId>
+				<version>3.11.0</version>
+			</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
