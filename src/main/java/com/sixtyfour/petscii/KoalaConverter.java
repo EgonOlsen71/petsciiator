@@ -40,7 +40,8 @@ public class KoalaConverter {
         } else {
             dither.reduce(image, colors, false);
         }
-
+        Logger.log("Rescaling and color reduction completed in "+(System.currentTimeMillis()-start)+"ms");
+        
         MulticolorConverter conv = new MulticolorConverter(colors);
         Bitmap mci = conv.convert(image);
         byte[] koala = conv.createKoalaImage(mci);
