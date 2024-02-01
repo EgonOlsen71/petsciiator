@@ -6,7 +6,7 @@ public class TestKoalaConversion {
 
     public static void main(String[] args) {
 
-        String[] pics = {"flowers.jpg", "test.jpg", "donkey.jpg", "memotech.jpg", "alps.jpg", "trees.jpg", "grumpy cat.jpg", "Mouse.png"};
+        String[] pics = {"small.png", "flowers.jpg", "test.jpg", "donkey.jpg", "memotech.jpg", "alps.jpg", "trees.jpg", "grumpy cat.jpg", "Mouse.png", "lines.png"};
         float gamma = 1.01f;
         ColorMap colors = new Vic2Colors();
 
