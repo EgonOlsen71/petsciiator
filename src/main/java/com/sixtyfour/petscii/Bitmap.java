@@ -3,6 +3,7 @@ package com.sixtyfour.petscii;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.image.DataBufferInt;
 import java.awt.image.RenderedImage;
 import java.io.BufferedOutputStream;
@@ -22,6 +23,8 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
+
+import com.twelvemonkeys.image.ResampleOp;
 
 /**
  * 
@@ -404,20 +407,27 @@ public class Bitmap {
 		img = target;
 		grabPixels();
 	}
-
+	
 	public static BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight,
+			boolean quality) {
+		try {
+			BufferedImageOp resampler = new ResampleOp(targetWidth, targetHeight, ResampleOp.FILTER_LANCZOS);
+			BufferedImage output = resampler.filter(img, null);
+			return output;
+		} catch(Throwable t) {
+			return getScaledInstanceAwt(img, targetWidth, targetHeight, quality);
+		}
+	}
+
+
+	public static BufferedImage getScaledInstanceAwt(BufferedImage img, int targetWidth, int targetHeight,
 			boolean quality) {
 		BufferedImage ret = img;
 		int w, h;
 		if (quality) {
-			// Use multi-step technique: start with original size, then
-			// scale down in multiple passes with drawImage()
-			// until the target size is reached
 			w = img.getWidth();
 			h = img.getHeight();
 		} else {
-			// Use one-step technique: scale directly from original
-			// size to target size with a single drawImage() call
 			w = targetWidth;
 			h = targetHeight;
 		}
