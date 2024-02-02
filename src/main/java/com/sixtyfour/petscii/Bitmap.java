@@ -40,6 +40,7 @@ public class Bitmap {
 	private int backgroundColor;
 	private Integer overriddenBackgroundColor;
 	private int backgroundColorIndex;
+	private int filter=ResampleOp.FILTER_LANCZOS;
 
 	public Bitmap(BufferedImage img) {
 		this.img = img;
@@ -67,6 +68,11 @@ public class Bitmap {
 	public Bitmap(String fileName, TargetDimensions fitTo, int scale) {
 		load(fileName, fitTo, scale);
 	}
+	
+	public Bitmap(String fileName, TargetDimensions fitTo, int scale, int filter) {
+		this.filter = filter;
+		load(fileName, fitTo, scale);
+	}
 
 	public BufferedImage getImage() {
 		return img;
@@ -91,7 +97,7 @@ public class Bitmap {
 	public int getBackgroundColor() {
 		return this.overriddenBackgroundColor;
 	}
-
+	
 	public void enhanceColors(float gamma) {
 		for (int i = 0; i < pixels.length; i++) {
 			int color = pixels[i];
@@ -351,7 +357,7 @@ public class Bitmap {
 			throw new RuntimeException(e);
 		}
 		if (img == null) {
-			throw new RuntimeException("Failed to process image!");
+			throw new RuntimeException("Failed to load image!");
 		}
 		BufferedImage target = null;
 		if (td != null) {
@@ -408,10 +414,11 @@ public class Bitmap {
 		grabPixels();
 	}
 	
-	public static BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight,
+	private BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight,
 			boolean quality) {
 		try {
-			BufferedImageOp resampler = new ResampleOp(targetWidth, targetHeight, ResampleOp.FILTER_LANCZOS);
+			// TwelveMonkeys-Version...
+			BufferedImageOp resampler = new ResampleOp(targetWidth, targetHeight, filter);
 			BufferedImage output = resampler.filter(img, null);
 			return output;
 		} catch(Throwable t) {
@@ -420,8 +427,9 @@ public class Bitmap {
 	}
 
 
-	public static BufferedImage getScaledInstanceAwt(BufferedImage img, int targetWidth, int targetHeight,
+	private BufferedImage getScaledInstanceAwt(BufferedImage img, int targetWidth, int targetHeight,
 			boolean quality) {
+		// JavaAWT fall back...
 		BufferedImage ret = img;
 		int w, h;
 		if (quality) {

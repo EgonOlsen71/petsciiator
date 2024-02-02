@@ -55,6 +55,4 @@ public class TargetDimensions {
 	public void setPixelRatio(float pixelRatio) {
 		this.pixelRatio = pixelRatio;
 	}
-	
-	
 }
