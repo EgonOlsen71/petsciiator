@@ -36,6 +36,12 @@
 				<artifactId>imageio-webp</artifactId>
 				<version>3.11.0</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>com.twelvemonkeys.imageio</groupId>
+				<artifactId>imageio-common</artifactId>
+				<version>3.11.0</version>
+			</dependency>
 	</dependencies>
 
 	<build>
