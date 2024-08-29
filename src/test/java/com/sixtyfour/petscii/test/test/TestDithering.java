@@ -1,6 +1,7 @@
 package com.sixtyfour.petscii.test.test;
 
 import com.sixtyfour.petscii.Bitmap;
+import com.sixtyfour.petscii.BlackWhiteColors;
 import com.sixtyfour.petscii.ColorReducer;
 import com.sixtyfour.petscii.Vic2Colors;
 
@@ -12,6 +13,13 @@ import com.sixtyfour.petscii.Vic2Colors;
 public class TestDithering {
 
 	public static void main(String[] args) {
+		
+		Bitmap image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Fearies\\weak2.png", false, 1);
+		ColorReducer dither = new ColorReducer();
+		dither.reduce(image, new BlackWhiteColors(), true, 1f);
+		image.save("results/weak_feary2.png");
+		
+		/*
 		Bitmap image = new Bitmap("examples/koala/test.jpg", false, 1);
 		ColorReducer dither = new ColorReducer();
 		dither.reduce(image, new Vic2Colors(), true);
@@ -21,6 +29,7 @@ public class TestDithering {
 		dither.reduce(image, new Vic2Colors(), true);
 		image.resize(320, 200);
 		image.save("results/test2.1.png");
+		*/
 		/*
 		MulticolorConverter conv = new MulticolorConverter();
 		Bitmap mci = conv.convert(image);

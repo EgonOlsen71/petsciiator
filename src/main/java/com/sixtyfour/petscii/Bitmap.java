@@ -1,5 +1,6 @@
 package com.sixtyfour.petscii;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -40,7 +41,7 @@ public class Bitmap {
 	private int backgroundColor;
 	private Integer overriddenBackgroundColor;
 	private int backgroundColorIndex;
-	private int filter=ResampleOp.FILTER_LANCZOS;
+	private int filter = ResampleOp.FILTER_LANCZOS;
 
 	public Bitmap(BufferedImage img) {
 		this.img = img;
@@ -68,7 +69,7 @@ public class Bitmap {
 	public Bitmap(String fileName, TargetDimensions fitTo, int scale) {
 		load(fileName, fitTo, scale);
 	}
-	
+
 	public Bitmap(String fileName, TargetDimensions fitTo, int scale, int filter) {
 		this.filter = filter;
 		load(fileName, fitTo, scale);
@@ -97,7 +98,7 @@ public class Bitmap {
 	public int getBackgroundColor() {
 		return this.overriddenBackgroundColor;
 	}
-	
+
 	public void enhanceColors(float gamma) {
 		for (int i = 0; i < pixels.length; i++) {
 			int color = pixels[i];
@@ -327,6 +328,38 @@ public class Bitmap {
 		img = target;
 	}
 
+	public void crop(int nwidth, int nheight) {
+		int width = img.getWidth();
+		int height = img.getHeight();
+		int difX = width - nwidth;
+		int difY = height - nheight;
+		int offsetX = difX / 2;
+		int offsetY = difY / 2;
+		int xs = 0;
+		int ys = 0;
+		int imgWidth = nwidth;
+		int imgHeight = nheight;
+
+		if (offsetX < 0) {
+			offsetX = 0;
+			xs = (nwidth - width) / 2;
+			imgWidth = width;
+		}
+
+		if (offsetY < 0) {
+			offsetY = 0;
+			ys = (nheight - height) / 2;
+			imgHeight = height;
+		}
+
+		Logger.log("Cropping image: "+xs+"/"+ys+"/"+imgWidth+"/"+imgHeight+"/"+offsetX+"/"+offsetY+"/"+(width - offsetX)+"/"+(height - offsetY));
+		
+		BufferedImage target = new BufferedImage(nwidth, nheight, BufferedImage.TYPE_INT_RGB);
+		target.getGraphics().drawImage(img, xs, ys, imgWidth+xs, imgHeight+ys, offsetX, offsetY, width - offsetX,
+				height - offsetY, Color.BLACK, null);
+		img = target;
+	}
+
 	public void save(String name) {
 		Logger.log("Writing image " + name);
 		try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(name));
@@ -413,22 +446,19 @@ public class Bitmap {
 		img = target;
 		grabPixels();
 	}
-	
-	private BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight,
-			boolean quality) {
+
+	private BufferedImage getScaledInstance(BufferedImage img, int targetWidth, int targetHeight, boolean quality) {
 		try {
 			// TwelveMonkeys-Version...
 			BufferedImageOp resampler = new ResampleOp(targetWidth, targetHeight, filter);
 			BufferedImage output = resampler.filter(img, null);
 			return output;
-		} catch(Throwable t) {
+		} catch (Throwable t) {
 			return getScaledInstanceAwt(img, targetWidth, targetHeight, quality);
 		}
 	}
 
-
-	private BufferedImage getScaledInstanceAwt(BufferedImage img, int targetWidth, int targetHeight,
-			boolean quality) {
+	private BufferedImage getScaledInstanceAwt(BufferedImage img, int targetWidth, int targetHeight, boolean quality) {
 		// JavaAWT fall back...
 		BufferedImage ret = img;
 		int w, h;
@@ -440,10 +470,10 @@ public class Bitmap {
 			h = targetHeight;
 		}
 
-		int itc=1;
+		int itc = 1;
 		do {
-			Logger.log("Scaling iteration: "+(itc++)+"/"+w+"/"+targetWidth+"/"+h+"/"+targetHeight);
-			if (itc>1000) {
+			Logger.log("Scaling iteration: " + (itc++) + "/" + w + "/" + targetWidth + "/" + h + "/" + targetHeight);
+			if (itc > 1000) {
 				// Emergency exit...
 				break;
 			}
