@@ -435,6 +435,10 @@ public class Bitmap {
 				int offsetX = 0;
 				int offsetY = 0;
 				Logger.log("Image ratio: " + ratio + " / target ratio: " + targetRatio);
+				if (Math.abs(ratio-targetRatio)<0.01) {
+					ratio = targetRatio;
+					Logger.log("Adjusting ratio to target ratio!");
+				}
 				if (ratio >= targetRatio) {
 					height = (int) ((float) height / (ratio / targetRatio));
 					offsetY = oheight / 2 - height / 2;

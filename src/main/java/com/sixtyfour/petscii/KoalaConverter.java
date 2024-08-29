@@ -22,7 +22,7 @@ public class KoalaConverter {
 	
 	
 	public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean savePngCopy) {
-		convert(source, target, colors, gamma, ditherStrength, false, false, savePngCopy);
+		convert(source, target, colors, gamma, ditherStrength, keepRatio, false, savePngCopy);
 	}
     /**
      *
