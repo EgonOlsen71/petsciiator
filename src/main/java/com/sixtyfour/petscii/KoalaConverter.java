@@ -37,7 +37,7 @@ public class KoalaConverter {
         
         Bitmap image;
         if (needsCropping) {
-        	image = new Bitmap(source, 4/3, new TargetDimensions(160, 200, keepRatio), 1);
+        	image = new Bitmap(source, AspectRatios.RATIO_C64, new TargetDimensions(160, 200, keepRatio), 1);
         } else {
         	image = new Bitmap(source, new TargetDimensions(160, 200, keepRatio), 1);
         }
