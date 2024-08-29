@@ -69,6 +69,10 @@ public class Bitmap {
 	public Bitmap(String fileName, TargetDimensions fitTo, int scale) {
 		load(fileName, fitTo, scale);
 	}
+	
+	public Bitmap(String fileName, double crop2aspectRatio, TargetDimensions fitTo, int scale) {
+		load(fileName, fitTo, scale, crop2aspectRatio);
+	}
 
 	public Bitmap(String fileName, TargetDimensions fitTo, int scale, int filter) {
 		this.filter = filter;
@@ -377,6 +381,10 @@ public class Bitmap {
 	}
 
 	private void load(String imgName, TargetDimensions td, int scale) {
+		load(imgName, td, scale, -1);
+	}
+	
+	private void load(String imgName, TargetDimensions td, int scale, double crop2AspectRatio) {
 		try {
 			InputStream is = this.getClass().getResourceAsStream(imgName);
 			if (is != null) {
@@ -391,6 +399,14 @@ public class Bitmap {
 		}
 		if (img == null) {
 			throw new RuntimeException("Failed to load image!");
+		}
+		if (crop2AspectRatio>0) {
+			int height = getHeight();
+			int width = getWidth();
+			Logger.log("Image dimensions before cropping: "+width+"x"+height);
+			width=(int) (crop2AspectRatio*height);
+			Logger.log("Cropping image ("+crop2AspectRatio+") to "+width+"x"+height);
+			crop(width, height);
 		}
 		BufferedImage target = null;
 		if (td != null) {

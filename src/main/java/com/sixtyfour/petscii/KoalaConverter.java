@@ -17,9 +17,13 @@ public class KoalaConverter {
 	 * @param savePngCopy
 	 */
 	public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean savePngCopy) {
-		convert(source, target, colors, gamma, ditherStrength, false, savePngCopy);
+		convert(source, target, colors, gamma, ditherStrength, false, false, savePngCopy);
 	}
 	
+	
+	public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean savePngCopy) {
+		convert(source, target, colors, gamma, ditherStrength, false, false, savePngCopy);
+	}
     /**
      *
      * @param source
@@ -27,13 +31,20 @@ public class KoalaConverter {
      * @param ditherStrength
      * @param savePngCopy
      */
-    public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean savePngCopy) {
+    public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean needsCropping, boolean savePngCopy) {
         long start = System.currentTimeMillis();
         ditherStrength = Math.min(1, ditherStrength);
-        Bitmap image = new Bitmap(source, new TargetDimensions(160, 200, keepRatio), 1);
-       if (gamma!=1) {
+        
+        Bitmap image;
+        if (needsCropping) {
+        	image = new Bitmap(source, 4/3, new TargetDimensions(160, 200, keepRatio), 1);
+        } else {
+        	image = new Bitmap(source, new TargetDimensions(160, 200, keepRatio), 1);
+        }
+        
+        if (gamma!=1) {
            image.enhanceColors(gamma);
-       }
+        }
         ColorReducer dither = new ColorReducer();
         if (ditherStrength>0) {
             dither.reduce(image, colors, ditherStrength);
