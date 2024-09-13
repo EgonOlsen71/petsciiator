@@ -71,7 +71,11 @@ public class Bitmap {
 	}
 	
 	public Bitmap(String fileName, double crop2aspectRatio, TargetDimensions fitTo, int scale) {
-		load(fileName, fitTo, scale, crop2aspectRatio);
+		load(fileName, fitTo, scale, crop2aspectRatio, -1);
+	}
+	
+	public Bitmap(String fileName, double crop2aspectRatio, TargetDimensions fitTo, int scale, int lineLimit) {
+		load(fileName, fitTo, scale, crop2aspectRatio, lineLimit);
 	}
 
 	public Bitmap(String fileName, TargetDimensions fitTo, int scale, int filter) {
@@ -381,10 +385,10 @@ public class Bitmap {
 	}
 
 	private void load(String imgName, TargetDimensions td, int scale) {
-		load(imgName, td, scale, -1);
+		load(imgName, td, scale, 0, -1);
 	}
 	
-	private void load(String imgName, TargetDimensions td, int scale, double crop2AspectRatio) {
+	private void load(String imgName, TargetDimensions td, int scale, double crop2AspectRatio, int lineLimit) {
 		try {
 			InputStream is = this.getClass().getResourceAsStream(imgName);
 			if (is != null) {
@@ -456,7 +460,16 @@ public class Bitmap {
 				BufferedImage target2 = getScaledInstance(img, width / dif, height / dif, true);
 
 				target = new BufferedImage(owidth, oheight, BufferedImage.TYPE_INT_RGB);
-				target.createGraphics().drawImage(target2, offsetX, offsetY, width, height, null);
+				if (lineLimit>0) {
+					int top = (height-lineLimit)/2;
+					if (top<0) {
+						top = 0;
+					}
+					Logger.log("Using line limited mode: "+width+"/"+lineLimit+"/"+top);
+					target.createGraphics().drawImage(target2, 0, 0, width, lineLimit, 0, top, width, lineLimit, null);
+				} else {
+					target.createGraphics().drawImage(target2, offsetX, offsetY, width, height, null);
+				}
 			}
 
 		} else {

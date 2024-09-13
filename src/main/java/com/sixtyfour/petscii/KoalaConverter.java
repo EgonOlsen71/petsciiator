@@ -17,21 +17,37 @@ public class KoalaConverter {
 	 * @param savePngCopy
 	 */
 	public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean savePngCopy) {
-		convert(source, target, colors, gamma, ditherStrength, false, false, savePngCopy);
+		convert(source, target, colors, gamma, ditherStrength, false, false, false, savePngCopy);
 	}
 	
 	
+	/**
+	 * 
+	 * @param source
+	 * @param target
+	 * @param colors
+	 * @param gamma
+	 * @param ditherStrength
+	 * @param keepRatio
+	 * @param savePngCopy
+	 */
 	public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean savePngCopy) {
-		convert(source, target, colors, gamma, ditherStrength, keepRatio, false, savePngCopy);
+		convert(source, target, colors, gamma, ditherStrength, keepRatio, false, false, savePngCopy);
 	}
-    /**
-     *
-     * @param source
-     * @param target
-     * @param ditherStrength
-     * @param savePngCopy
-     */
-    public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean needsCropping, boolean savePngCopy) {
+
+	/**
+	 * 
+	 * @param source
+	 * @param target
+	 * @param colors
+	 * @param gamma
+	 * @param ditherStrength
+	 * @param keepRatio
+	 * @param needsCropping
+	 * @param d42Mode
+	 * @param savePngCopy
+	 */
+	public static void convert(String source, String target, ColorMap colors, float gamma, float ditherStrength, boolean keepRatio, boolean needsCropping, boolean d42Mode, boolean savePngCopy) {
         long start = System.currentTimeMillis();
         ditherStrength = Math.min(1, ditherStrength);
         
@@ -39,7 +55,7 @@ public class KoalaConverter {
         if (needsCropping) {
         	image = new Bitmap(source, AspectRatios.RATIO_C64, new TargetDimensions(160, 200, keepRatio), 1);
         } else {
-        	image = new Bitmap(source, new TargetDimensions(160, 200, keepRatio), 1);
+        	image = new Bitmap(source, 0, new TargetDimensions(160, 200, keepRatio), 1, 96);
         }
         
         if (gamma!=1) {

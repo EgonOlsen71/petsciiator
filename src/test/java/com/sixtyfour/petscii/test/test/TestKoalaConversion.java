@@ -28,7 +28,8 @@ public class TestKoalaConversion {
             KoalaConverter.convert("examples/koala/"+pic, "results/"+targetPic+"_none.koa", colors, gamma, 0, true, true);
         }
         */
-        KoalaConverter.convert("examples/dog.png", "results/dog_cropped.koa", colors, gamma, 0.75f, true, true, true);
+        //KoalaConverter.convert("examples/dog.png", "results/dog_cropped.koa", colors, gamma, 0.75f, true, true, true);
+        KoalaConverter.convert("examples/koala/d42test.png", "results/d42test.koa", colors, gamma, 0.75f, true, false, true, true);
     }
 
 }

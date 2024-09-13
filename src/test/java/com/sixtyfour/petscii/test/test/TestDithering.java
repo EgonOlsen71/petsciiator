@@ -3,6 +3,7 @@ package com.sixtyfour.petscii.test.test;
 import com.sixtyfour.petscii.Bitmap;
 import com.sixtyfour.petscii.BlackWhiteColors;
 import com.sixtyfour.petscii.ColorReducer;
+import com.sixtyfour.petscii.GrayWhiteColors;
 import com.sixtyfour.petscii.Vic2Colors;
 
 /**
@@ -14,10 +15,38 @@ public class TestDithering {
 
 	public static void main(String[] args) {
 		
-		Bitmap image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Fearies\\weak2.png", false, 1);
 		ColorReducer dither = new ColorReducer();
-		dither.reduce(image, new BlackWhiteColors(), true, 1f);
-		image.save("results/weak_feary2.png");
+		Bitmap image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda1.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.3f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda1_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda2.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.2f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda2_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda3.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.2f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda3_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda4.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.2f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda4_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda5.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.2f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda5_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda6.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.7f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda6_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda7.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.7f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda7_bw.png");
+		
+		image = new Bitmap("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda8.png", false, 1);
+		dither.reduce(image, new BlackWhiteColors(), true, 0.2f);
+		image.save("C:\\Users\\EgonOlsen\\Desktop\\Zelda\\zelda8_bw.png");
 		
 		/*
 		Bitmap image = new Bitmap("examples/koala/test.jpg", false, 1);
