@@ -32,7 +32,7 @@ public class Saver {
 			Logger.log("Writing BASIC code: " + file);
 			try (PrintWriter pw = new PrintWriter(file)) {
 				for (String line : code) {
-					pw.println(line);
+					pw.print(line+"\r\n");
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
