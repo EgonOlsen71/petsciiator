@@ -14,6 +14,7 @@ There are several output formats to choose from:
 * **bbs**: a SEQ file containing the image for usage in a BBS (you might want to use the /lowercase=true switch in combination with this one)
 * **bin**: two SEQ files containing the raw screen and color ram data
 * **koala**: not a PETSCII variant, but a multi-color image in Koala Painter format
+* **hires**: not a PETSCII variant, but a hires image in Hi-Eddi+ format
 <img src="https://github.com/EgonOlsen71/petsciiator/blob/master/examples/pet4032-12.jpg" width="320" height="200">  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/pet4032-12_petscii.png)
 
 
