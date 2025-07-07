@@ -110,7 +110,11 @@ public class Petsciiator {
 			symbolBoost=(float) sboost/10;
 		}
 
-		Integer koalaDither = this.getIntArgument("koaladither");
+		Integer dither = this.getIntArgument("dither");
+		if (dither==null) {
+			// Support legacy parameter
+			dither = this.getIntArgument("koaladither");
+		}
 
 		Integer bgColor = getIntArgument("background");
 		if (bgColor != null) {
@@ -187,13 +191,18 @@ public class Petsciiator {
 				if (formats.contains("bin")) {
 					Saver.savePetsciiBin(pic, data, folder);
 				}
-				if (formats.contains("koala")) {
+				if (formats.contains("koala") || formats.contains("hires")) {
 					String piccy = pic.toString();
-					if (koalaDither==null) {
-						koalaDither = 100;
+					if (dither==null) {
+						dither = 100;
 					}
-					koalaDither = Math.max(0, Math.min(koalaDither,100));
-					KoalaConverter.convert(piccy, Saver.createTempFileName(pic, folder, "koala.koa").toString(), new Vic2Colors(), 1, ((float) koalaDither)/100f, false);
+					dither = Math.max(0, Math.min(dither,100));
+					if (formats.contains("koala")) {
+						KoalaConverter.convert(piccy, Saver.createTempFileName(pic, folder, "koala.koa").toString(), new Vic2Colors(), 1, ((float) dither)/100f, false);
+					}
+					if (formats.contains("hires")) {
+						HiEddiConverter.convert(piccy, Saver.createTempFileName(pic, folder, "hires.hed").toString(), new Vic2Colors(), 1, ((float) dither)/100f, false);
+					}
 				}
 
 				Logger.log("Background color is: " + data.getBackGroundColor());
@@ -224,7 +233,7 @@ public class Petsciiator {
 		System.out.println(
 				"/target=<target folder> - the target folder in which the generated files will be written. Default is the current work directory.");
 		System.out.println(
-				"/format=<image,basic,bbs,bin,koala> - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic.");
+				"/format=<image,basic,bbs,bin,koala,hires> - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic.");
 		System.out.println(
 				"/prescale=<1-4> - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.");
 		System.out.println(
@@ -244,7 +253,7 @@ public class Petsciiator {
 		System.out.println(
 				"/symbolboost=<0-xxx> - values > 10 favour actual graphic symbols over other characters, values below favour other characters over symbols. Negative values will invert the image. Default is 10.");
 		System.out.println(
-				"/koaladither=<0-100> - Dithering strength for Koala Painter conversion. This doesn't affect the PETSCII conversion.");
+				"/dither=<0-100> - Dithering strength for Koala Painter and Hires conversion. This doesn't affect the PETSCII conversion.");
 
 	}
 
