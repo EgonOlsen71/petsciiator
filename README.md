@@ -15,6 +15,7 @@ There are several output formats to choose from:
 * **bin**: two SEQ files containing the raw screen and color ram data
 * **koala**: not a PETSCII variant, but a multi-color image in Koala Painter format
 * **hires**: not a PETSCII variant, but a hires image in Hi-Eddi+ format
+
 <img src="https://github.com/EgonOlsen71/petsciiator/blob/master/examples/pet4032-12.jpg" width="320" height="200">  ==>  ![petscii image](https://github.com/EgonOlsen71/petsciiator/blob/master/examples/petscii/pet4032-12_petscii.png)
 
 
@@ -43,7 +44,7 @@ When you start the converter using one of these batch files without specifying a
 
 **/platform=<C64|264>** - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4) offers more colors.
 
-**/dither=<0-100>** - dithering strength for the koala painter conversion. This has no influence on the PETSCII conversion. 
+**/dither=<0-100>** - dithering strength for the koala painter and hires conversion. This has no influence on the PETSCII conversion. 
 
 
 # /colormapper and /background explained
