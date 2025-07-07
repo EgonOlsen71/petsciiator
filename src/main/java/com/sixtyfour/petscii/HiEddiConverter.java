@@ -53,9 +53,9 @@ public class HiEddiConverter {
         
         Bitmap image;
         if (needsCropping) {
-        	image = new Bitmap(source, AspectRatios.RATIO_C64, new TargetDimensions(320, 200, keepRatio), 1);
+        	image = new Bitmap(source, AspectRatios.RATIO_C64, new TargetDimensions(320, 200, keepRatio, 1), 1);
         } else {
-        	image = new Bitmap(source, 0, new TargetDimensions(320, 200, keepRatio), 1, d42Mode?96:-1);
+        	image = new Bitmap(source, 0, new TargetDimensions(320, 200, keepRatio, 1), 1, d42Mode?96:-1);
         }
         
         image.setBackgroundColor(6);
