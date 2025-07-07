@@ -24,7 +24,7 @@ When you start the converter using one of these batch files without specifying a
 
 **/target=<target folder>** - the target folder in which the generated files will be written. Default is the current work directory.
 
-**/format=<image,basic,bbs,bin,koala>** - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic
+**/format=<image,basic,bbs,bin,koala,hires>** - the output format(s). Multiple formats can be specified by separating them by kommas. Default is image,basic
 
 **/prescale=<1-4>** - scales the image down before generating the PETSCII from it. This can help to reduce artifacts in some cases. A value of 4 basically results in a 80*50 image. Default is 1.
 
@@ -42,7 +42,7 @@ When you start the converter using one of these batch files without specifying a
 
 **/platform=<C64|264>** - specifies the target platform, default is C64. The 264 platform (C16/C116/Plus4) offers more colors.
 
-**/koaladither=<0-100>** - dithering strength for the koala painter conversion. This has no influence on the PETSCII conversion. 
+**/dither=<0-100>** - dithering strength for the koala painter conversion. This has no influence on the PETSCII conversion. 
 
 
 # /colormapper and /background explained
